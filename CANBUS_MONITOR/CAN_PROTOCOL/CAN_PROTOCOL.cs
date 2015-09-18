@@ -24,7 +24,10 @@ namespace CANBUS_MONITOR
 
         public const Int16 Heartbeat_Message = 1792;   //700h plus ID CAN NODE
         //Example CAN NODE Nr 100 sends Heartbeat Message with Identifier : 764h / 1892
+        class Emergency
+        {
 
+        }
         
         
     }
