@@ -1,0 +1,522 @@
+﻿<Window x:Class="CANBUS_MONITOR.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:CANBUS_MONITOR"
+        Title="MainWindow" MinWidth="1050" MinHeight="600" Height="600" Width="1050" WindowStartupLocation="CenterScreen"  MouseDown="Can_Bus_MouseDown" Style="{DynamicResource windowappstyle}" Template="{DynamicResource windowapp}" Loaded="Window_Loaded">
+    <Window.Resources>
+        <ResourceDictionary Source="Controltemplate.xaml"></ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="600"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="Label_Title" Foreground="White" FontSize="36" Content="Controller Area Network Monitoring" />
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <Label x:Name="Label_Firmware_Version" Content="{Binding Firmware}" Foreground="White" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <Label x:Name="Label_Operation_Mode" Content="{Binding Mode}"  Foreground="White" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <Label x:Name="Label_Traffic" Content="{Binding Traffic}"  Foreground="White" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <Label x:Name="Label_Bus_Speed" Content="{Binding Speed}"  Foreground="White" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+            </Grid>
+            <Button x:Name="Buttonclose" Grid.Column="2" Grid.Row="0" Content="Close" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="75" Click="Buttonclose_Click" OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" />
+            <Button x:Name="Buttonhelp" Grid.Column="2" Grid.Row="0" Content="Help" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="75" OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" Click="Buttonhelp_Click" />
+
+            <Border x:Name="Recording" Grid.Column="2" BorderThickness="1" CornerRadius="4" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center" Width="150" Height="20"  Grid.Row="0"  >
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="BorderBrush"  Value="Red">
+
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Recording}" Value="True">
+                                <Setter Property="BorderBrush" Value="Green"/>
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="1x">
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.99" To="0.0" Duration="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="0.99" Duration="0:0:1.0" BeginTime="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="1x">
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.99" To="0.0" Duration="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="0.99" Duration="0:0:1.0" BeginTime="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+
+                    </Style>
+
+                </Border.Style>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" >
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text" Value="No Recording"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Recording}" Value="True">
+                                    <Setter Property="Text" Value="Active Recording"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Border>
+            <Border x:Name="Deviceconnection" Grid.Column="2" BorderThickness="1" CornerRadius="4" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Height="20"  Grid.Row="0"  >
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="BorderBrush"  Value="Red">
+
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Deviceconnection}" Value="True">
+                                <Setter Property="BorderBrush" Value="Green"/>
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="1x">
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.99" To="0.0" Duration="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="0.99" Duration="0:0:1.0" BeginTime="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="1x">
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.99" To="0.0" Duration="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                            <DoubleAnimation 
+                                 
+                                  Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="0.99" Duration="0:0:1.0" BeginTime="0:0:1.0"/>
+                                            <!--AutoReverse="True"-->
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+
+                    </Style>
+
+                </Border.Style>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" >
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text" Value="Device not connected"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Deviceconnection}" Value="True">
+                                    <Setter Property="Text" Value="Device connected"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Border>
+        </Grid>
+        <TabControl Grid.Row="1" SelectionChanged="TabControl_SelectionChanged">
+            <TabControl.Background>
+                <SolidColorBrush Color="{DynamicResource Grey}"/>
+            </TabControl.Background>
+            <TabItem Style="{StaticResource TabItem_SI}" Header="Test" Foreground="White">
+                <Grid >
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"  />
+                        <ColumnDefinition Width="Auto"  />
+                    </Grid.ColumnDefinitions>
+                    <Menu x:Name="Main_Menu" Grid.Column="0" Grid.Row="0" Background="Transparent" Foreground="White">
+                        <MenuItem Style="{DynamicResource Menu_Item_SI}" Header="_File" Background="#FF696464" BorderBrush="#FF696464" >
+                            <MenuItem  Style="{StaticResource Menu_Item_SI}" Header="_Open" Background="#FF696464" Foreground="White"  />
+                            <MenuItem  Style="{StaticResource Menu_Item_SI}" Header="_Save" Foreground="White" BorderBrush="#FF696464" >
+                                <MenuItem.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </MenuItem.Background>
+                            </MenuItem>
+                            <Separator Style="{StaticResource Separator_SI}" Foreground="#FF696464" >
+                            </Separator>
+                            <MenuItem Style="{StaticResource Menu_Item_SI}" Header="_Exit" Background="#FF696464" Foreground="White" BorderBrush="#FF696464" />
+                        </MenuItem>
+
+                        <MenuItem Header="_Configuration">
+                            <MenuItem Header="_New" />
+                            <MenuItem Header="_Open" />
+                            <MenuItem Header="_Save" />
+                            <Separator />
+                            <MenuItem Header="_Exit" />
+                        </MenuItem>
+                    </Menu>
+
+                    <DataGrid x:Name="Datagridtest" Grid.Column="0" Grid.Row="2"  MinHeight="289" Width="579" SelectionChanged="DataGrid_SelectionChanged" ColumnWidth="*" IsReadOnly="True" />
+                    <ComboBox x:Name="ComboBoxtables" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="120" SelectionChanged="ComboBoxtables_SelectionChanged" IsReadOnly="True" Height="22"/>
+                    <TextBox x:Name="Textboxname" Grid.Column="1" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.Row="2" />
+                    <Button x:Name="Buttonadd" Grid.Column="1"  Content="ADD" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" Click="Buttonadd_Click" Height="15" Grid.Row="2" />
+                    <Grid Grid.Column="0" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="Auto"  />
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="Configruationlabel" Grid.Row="0" Grid.Column="0" Content="Configuration" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="85" Foreground="White" Height="25"/>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TabRecording" Style="{StaticResource TabItem_SI}" Header="Recording"  Foreground="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <local:ListboxPIC VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="listboxrecording" Grid.Row="1" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListBox.Background>
+                            <SolidColorBrush Color="{DynamicResource Grey}"/>
+                        </ListBox.Background>
+                    </local:ListboxPIC>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="buttonstart" Grid.Column="0"  Content="Start" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="15" Grid.Row="0" Click="buttonstart_Click"  />
+
+                        <Button x:Name="buttonstop" Grid.Column="1"  Content="Stop" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="15" Grid.Row="0" Click="buttonstop_Click" />
+                        <Button x:Name="buttonbaudrate" Grid.Column="2"  Content="Get Baud Rate" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="15" Grid.Row="0" Click="buttonbaudrate_Click" />
+                        <Button x:Name="buttonsetlistenmode" Grid.Column="3"  Content="Set Listen Only Mode" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="130"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="15" Grid.Row="0" Click="buttonsetlistenmode_Click"  />
+
+                        <Label x:Name="lblnumber" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Content="CAN Messages received : 0" Foreground="White" />
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Style="{StaticResource TabItem_SI}" Header="Configuration"  Foreground="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="Datagridconfiguration" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"  EnableColumnVirtualization="True" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1"  MinHeight="289" IsReadOnly="True" MinWidth="579" SelectionChanged="DataGrid_SelectionChanged" ColumnWidth="*" MaxHeight="800"  CellEditEnding="Datagridconfiguration_CellEditEnding" AddingNewItem="Datagridconfiguration_AddingNewItem" CurrentCellChanged="Datagridconfiguration_CurrentCellChanged" />
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="Label_Config" Foreground="White" Content="Configurations" />
+                        <ComboBox x:Name="Comboboxconfiguration" Grid.Column="1"  Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionChanged="Comboboxconfiguration_SelectionChanged"/>
+                        <CheckBox x:Name="Checkboxedit" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Enable Editing" Foreground="White" Checked="CheckBoxedit_Checked" Unchecked="CheckBoxedit_Unchecked" />
+                        <Button x:Name="Buttonnew" Grid.Row="0" Grid.Column="3" Content="New" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" />
+                        <Button x:Name="Buttonmerge" Grid.Row="0" Grid.Column="4" Content="Merge" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" Click="Buttonmerge_Click" />
+                        <ProgressBar x:Name="prgbarcsv" Visibility="Hidden" Height="15" Grid.Column=" 5" ></ProgressBar>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem_SI}" Header="Network Settings"  Foreground="White" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"></RowDefinition>
+                        <RowDefinition Height="100"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Test Communication :" VerticalAlignment="Center"  Grid.Column="0" Foreground="White" ></Label>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <CheckBox x:Name="Checkbox_Led25Pct" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set LED 1" Foreground="White" IsChecked="False" Checked="Checkbox_Led25Pct_Checked" Unchecked="Checkbox_Led25Pct_Unchecked" IsEnabled="{Binding IsNormalMode}"/>
+                            <CheckBox x:Name="Checkbox_Led50Pct" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set LED 2" Foreground="White" IsChecked="False" Checked="Checkbox_Led50Pct_Checked" Unchecked="Checkbox_Led50Pct_Unchecked" IsEnabled="{Binding IsNormalMode}"/>
+                            <CheckBox x:Name="Checkbox_Led75Pct" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set LED 3" Foreground="White" IsChecked="False" Unchecked="Checkbox_Led75Pct_Unchecked" Checked="Checkbox_Led75Pct_Checked" IsEnabled="{Binding IsNormalMode}"/>
+                            <CheckBox x:Name="Checkbox_Led100Pct" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set LED 4" Foreground="White" IsChecked="False" Checked="Checkbox_Led100Pct_Checked" Unchecked="Checkbox_Led100Pct_Unchecked" IsEnabled="{Binding IsNormalMode}"/>
+                  
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <RadioButton x:Name="Radiobutton_Speed125" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set Speed : 125kbps" Foreground="White" IsChecked="False"  IsEnabled="{Binding IsNormalMode}" Checked="Radiobutton_Speed125_Checked"/>
+                            <RadioButton x:Name="Radiobutton_Speed250" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set Speed : 250kbps" Foreground="White" IsChecked="False"  IsEnabled="{Binding IsNormalMode}" Checked="Radiobutton_Speed250_Checked"/>
+                            <RadioButton x:Name="Radiobutton_Speed500" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set Speed : 500kbps" Foreground="White" IsChecked="False"  IsEnabled="{Binding IsNormalMode}" Checked="Radiobutton_Speed500_Checked"/>
+                            <RadioButton x:Name="Radiobutton_Speed1000" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set Speed : 1000kbps" Foreground="White" IsChecked="False" IsEnabled="{Binding IsNormalMode}" Checked="Radiobutton_Speed1000_Checked"/>
+
+                        </Grid>
+                        <Button x:Name="buttonresetnodes" Grid.Column="4"  Content="Reset Nodes" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" IsEnabled="{Binding IsNormalMode}" Click="buttonresetnodes_Click"  />
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem_SI}" Header="MCP2515 Settings"  Foreground="White" Height="20" Margin="-0.4,0,0.2,0" VerticalAlignment="Bottom" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Select Operation Mode" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
+                        <ComboBox x:Name="CBO_OP_Mode" Grid.Column="1"  Height="20" SelectionChanged="CBO_OP_Mode_SelectionChanged" IsEnabled="True" Style="{StaticResource ComboBox_SI}">
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}">#FF8B9297</SolidColorBrush>
+                            </ComboBox.Resources>
+                        </ComboBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Select Bus Speed" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
+                        <ComboBox x:Name="CBO_Bus_Speed" Grid.Column="1"  Height="20" IsEnabled="{Binding IsConfigMode}" Style="{StaticResource ComboBox_SI}" SelectionChanged="CBO_Bus_Speed_SelectionChanged">
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}">#FF8B9297</SolidColorBrush>
+                            </ComboBox.Resources>
+                        </ComboBox>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Select Buffer" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
+                        <ComboBox x:Name="CBO_Buffernumber" Grid.Column="1"  Height="20" Style="{StaticResource ComboBox_SI}" SelectionChanged="CBO_Buffernumber_SelectionChanged" >
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}">#FF8B9297</SolidColorBrush>
+                            </ComboBox.Resources>
+                            <ComboBoxItem>0</ComboBoxItem>
+                            <ComboBoxItem>1</ComboBoxItem>
+                        </ComboBox>
+                        <Label Content="MCP2515 has two RX Buffer" Grid.Column="2" VerticalAlignment="Center" Foreground="White"></Label>
+
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Select Filter" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
+                        <ComboBox x:Name="CBO_Filternr" Grid.Column="1"  Height="20" Style="{StaticResource ComboBox_SI}"  >
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}">#FF8B9297</SolidColorBrush>
+                            </ComboBox.Resources>
+                            <ComboBoxItem>0</ComboBoxItem>
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                            <ComboBoxItem>5</ComboBoxItem>
+                        </ComboBox>
+                        <Label x:Name="Label_Filter_Value"  Content="Actual Filter Value" Grid.Column="2" VerticalAlignment="Center" Foreground="White"></Label>
+                     
+                    </Grid>
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Select Mask" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
+                        <ComboBox x:Name="CBO_Masknr" Grid.Column="1"  Height="20" Style="{StaticResource ComboBox_SI}"  >
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}">#FF8B9297</SolidColorBrush>
+                            </ComboBox.Resources>
+                            <ComboBoxItem>0</ComboBoxItem>
+                            <ComboBoxItem>1</ComboBoxItem>
+                        </ComboBox>
+                        <Label x:Name="Label_Mask_Value" Content="Actual Mask Value" Grid.Column="2" VerticalAlignment="Center" Foreground="White"></Label>
+                    </Grid>
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Enter new Filter or Mask" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
+                       
+                      
+                        <TextBox x:Name="Textbox_New_Value" Grid.Column="1"  Height="20" Foreground="White" BorderBrush="White"  MaxLength="29" PreviewTextInput="NumberValidationTextBox" TextChanged="Textbox_New_Value_TextChanged"  >
+                            <TextBox.Background>
+                                <SolidColorBrush Color="{DynamicResource Grey}"/>
+                            </TextBox.Background>
+                        </TextBox>
+                    </Grid>
+                    <Grid Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Binary Value" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
+                        <Label x:Name="Label_Binary_Value" Content="" Grid.Column="1" VerticalAlignment="Center" Foreground="White"></Label>
+                    </Grid>
+                    <Grid Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ButtonsetFilter" Grid.Row="0" Grid.Column="0" Content="Set Filter" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" Click="ButtonsetFilter_Click" />
+                        <Button x:Name="ButtonsetMask" Grid.Row="0" Grid.Column="1" Content="Set Mask" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" Click="ButtonsetMask_Click" />
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem_SI}" Header="PIC 18F4550"  Foreground="White" Height="20" Margin="-0.4,0,0.2,0" VerticalAlignment="Bottom" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="300"></RowDefinition>
+
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="buttonreset" Grid.Column="0"  Content="Reset" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" Grid.Row="0" Click="buttonreset_Click" />
+                        <Button x:Name="buttonbootloader" Grid.Column="1"  Content="Enter Bootloader" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" Grid.Row="0" Click="buttonbootloader_Click" />
+                        <Button x:Name="buttonloadhex" Grid.Column="2"  Content="Load Hex File" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" Grid.Row="0" Click="buttonloadhex_Click"  />
+                        <Button x:Name="buttonprogramdevice" Grid.Column="3"  Content="Program Device" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" Grid.Row="0" Click="buttonprogramdevice_Click" />
+                        <CheckBox x:Name="Checkbox_Termination_Res" Grid.Column="4" IsChecked="False" Content="Switch Termination Resistor On" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Unchecked="Checkbox_Termination_Res_Unchecked" Checked="Checkbox_Termination_Res_Checked" ></CheckBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <local:ListboxPIC x:Name="ListboxPIC" Width="800"  HorizontalAlignment="Left" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden"  >
+                            <ListBox.Background>
+                                <SolidColorBrush Color="{DynamicResource Grey}"/>
+                            </ListBox.Background>
+                        </local:ListboxPIC>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem_SI}" Header="Network Nodes"  Foreground="White" Height="20" Margin="-0.4,0,0.2,0" VerticalAlignment="Bottom" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="300"></RowDefinition>
+
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+                            <ColumnDefinition Width="120"></ColumnDefinition>
+
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
