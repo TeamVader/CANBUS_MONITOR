@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootloader\Hexfile.cs" />
+    <Compile Include="CAN_PROTOCOL\CANopen.cs" />
     <Compile Include="CAN_PROTOCOL\CAN_PROTOCOL.cs" />
     <Compile Include="Resources\CAN\Hardware_Config.cs" />
     <Compile Include="usbGenericCommunications\deviceCommunication.cs">
@@ -130,6 +131,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="CAN_PROTOCOL\canopen_intro.pdf" />
+    <None Include="CAN_PROTOCOL\AusarbeitungCAN-Bus.pdf" />
+    <None Include="CAN_PROTOCOL\dsp30232.pdf" />
+    <None Include="CAN_PROTOCOL\ds301.pdf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

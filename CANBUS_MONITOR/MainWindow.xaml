@@ -197,7 +197,7 @@
                     <DataGrid x:Name="Datagridtest" Grid.Column="0" Grid.Row="2"  MinHeight="289" Width="579" SelectionChanged="DataGrid_SelectionChanged" ColumnWidth="*" IsReadOnly="True" />
                     <ComboBox x:Name="ComboBoxtables" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="120" SelectionChanged="ComboBoxtables_SelectionChanged" IsReadOnly="True" Height="22"/>
                     <TextBox x:Name="Textboxname" Grid.Column="1" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.Row="2" />
-                    <Button x:Name="Buttonadd" Grid.Column="1"  Content="ADD" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" Click="Buttonadd_Click" Height="15" Grid.Row="2" />
+                    <Button x:Name="Buttonadd" Grid.Column="1"  Content="ADD" HorizontalAlignment="Left" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" Click="Buttonadd_Click" Grid.Row="2" Margin="0,370,0,-0.4" Height="16" VerticalAlignment="Top" />
                     <Grid Grid.Column="0" Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"  />
@@ -299,7 +299,7 @@
                             <CheckBox x:Name="Checkbox_Led50Pct" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set LED 2" Foreground="White" IsChecked="False" Checked="Checkbox_Led50Pct_Checked" Unchecked="Checkbox_Led50Pct_Unchecked" IsEnabled="{Binding IsNormalMode}"/>
                             <CheckBox x:Name="Checkbox_Led75Pct" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set LED 3" Foreground="White" IsChecked="False" Unchecked="Checkbox_Led75Pct_Unchecked" Checked="Checkbox_Led75Pct_Checked" IsEnabled="{Binding IsNormalMode}"/>
                             <CheckBox x:Name="Checkbox_Led100Pct" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Set LED 4" Foreground="White" IsChecked="False" Checked="Checkbox_Led100Pct_Checked" Unchecked="Checkbox_Led100Pct_Unchecked" IsEnabled="{Binding IsNormalMode}"/>
-                  
+
                         </Grid>
                         <Grid Grid.Column="2">
                             <Grid.RowDefinitions>
@@ -397,7 +397,7 @@
                             <ComboBoxItem>5</ComboBoxItem>
                         </ComboBox>
                         <Label x:Name="Label_Filter_Value"  Content="Actual Filter Value" Grid.Column="2" VerticalAlignment="Center" Foreground="White"></Label>
-                     
+
                     </Grid>
                     <Grid Grid.Row="4">
                         <Grid.ColumnDefinitions>
@@ -424,8 +424,8 @@
                             <ColumnDefinition Width="150"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Content="Enter new Filter or Mask" Grid.Column="0" VerticalAlignment="Center" Foreground="White"></Label>
-                       
-                      
+
+
                         <TextBox x:Name="Textbox_New_Value" Grid.Column="1"  Height="20" Foreground="White" BorderBrush="White"  MaxLength="29" PreviewTextInput="NumberValidationTextBox" TextChanged="Textbox_New_Value_TextChanged"  >
                             <TextBox.Background>
                                 <SolidColorBrush Color="{DynamicResource Grey}"/>

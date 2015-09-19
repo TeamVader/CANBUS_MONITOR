@@ -596,9 +596,15 @@ namespace CANBUS_MONITOR
 
         private void Buttonadd_Click(object sender, RoutedEventArgs e)
         {
-            CAN_Monitor_Functions.Create_Measuring_Table(Textboxname.Text);
+            /*CAN_Monitor_Functions.Create_Measuring_Table(Textboxname.Text);
             datatables = CAN_Monitor_Functions.Get_Table_Names();
-            CAN_Monitor_Functions.update_combobox(datatables, ComboBoxtables, 2);
+            CAN_Monitor_Functions.update_combobox(datatables, ComboBoxtables, 2);*/
+            long data = 0;
+            CANopen.COB_ID COBID = new CANopen.COB_ID();
+            COBID.Function = 0xF;
+            COBID.Node_ID = 0x83;
+            data = CANopen.PrimitiveConversion.ToLong(COBID);
+            MessageBox.Show(data.ToString("X3"));
 
         }
 
