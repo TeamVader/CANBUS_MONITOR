@@ -62,7 +62,9 @@
     </ApplicationDefinition>
     <Compile Include="Bootloader\Hexfile.cs" />
     <Compile Include="CAN_PROTOCOL\CANopen.cs" />
-    <Compile Include="CAN_PROTOCOL\CAN_PROTOCOL.cs" />
+    <Compile Include="CAN_PROTOCOL\CANopen_Codes.cs" />
+    <Compile Include="CAN_PROTOCOL\CANopen_Node.cs" />
+    <Compile Include="CAN_PROTOCOL\CAN_PROTOCOL_MCP2515.cs" />
     <Compile Include="Resources\CAN\Hardware_Config.cs" />
     <Compile Include="usbGenericCommunications\deviceCommunication.cs">
       <SubType>Component</SubType>

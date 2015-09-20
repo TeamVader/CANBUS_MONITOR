@@ -599,12 +599,15 @@ namespace CANBUS_MONITOR
             /*CAN_Monitor_Functions.Create_Measuring_Table(Textboxname.Text);
             datatables = CAN_Monitor_Functions.Get_Table_Names();
             CAN_Monitor_Functions.update_combobox(datatables, ComboBoxtables, 2);*/
-            long data = 0;
-            CANopen.COB_ID COBID = new CANopen.COB_ID();
-            COBID.Function = 0xF;
-            COBID.Node_ID = 0x83;
-            data = CANopen.PrimitiveConversion.ToLong(COBID);
-            MessageBox.Show(data.ToString("X3"));
+
+            CANopen.Node newnode = new CANopen.Node();
+            newnode.Set_State(0x00);
+
+            
+            MessageBox.Show(newnode.State_Description);
+            newnode.Set_State(0x05);
+            MessageBox.Show(newnode.State_Description);
+
 
         }
 

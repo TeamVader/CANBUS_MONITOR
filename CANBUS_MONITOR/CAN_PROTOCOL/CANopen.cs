@@ -15,17 +15,32 @@ namespace CANBUS_MONITOR
     The COB-ID determines the priority of that COB for the MAC sub-layer.*/
 
 
-    public class CANopen
+    public partial class CANopen
     {
 
-        public class Service_ID
+
+        public class CanMsg
         {
-            static Dictionary<UInt32, string> ID_Service_Dictionary = new Dictionary<uint, string>()
-            {
-                {0x000,"NMT"},
-            };
+            public byte[] Data = new byte[8];
+            public UInt32 ID = 0;
+            public byte MsgLen = 0;
+            public MsgTypes MsgType = MsgTypes.MSGTYPE_STANDARD;
         }
+
+        /// <summary>
+        /// CAN Message
+        /// </summary>
+        [Flags]
+        public enum MsgTypes : int
+        {
+            MSGTYPE_STANDARD = 0x00,		// Standard Frame (11 bit ID)
+            MSGTYPE_RTR = 0x01,		        // Remote request
+            MSGTYPE_EXTENDED = 0x02,		// CAN 2.0 B Frame (29 Bit ID)
+            MSGTYPE_STATUS = 0x80,		    // Status Message
+        }
+
         
+        /*
 
         [global::System.AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
         sealed class BitfieldLengthAttribute : Attribute
@@ -48,27 +63,69 @@ namespace CANBUS_MONITOR
             [BitfieldLength(7)] //0-6
             public uint Node_ID;
             [BitfieldLength(4)] //7-10
-            public uint Function;
-            
-            
+            public uint Function;         
         }
 
-        public const Int16 NMT_node_control = 0; //0h All Slave receive
-        //Identifier standard length 11 bit
+         */
+        
+        public class CAN_FRAME
+        {
+            
+            public UInt32 ID = 0;
+            public byte Datalength = 0;
+            public byte[] Data = new byte[8];
+            public MsgTypes MsgType = MsgTypes.MSGTYPE_STANDARD;
+        }
 
-        public const Int16 SYNC = 128; //Not implented
-        public const Int16 time = 256; //100h  
+       
 
-        //Process Data Objects Standard Message with 8 Databytes
-        public const Int16 PDO = 500; //181h-580h
+        
+        /*
+        private void canDispatch(CanOpenDev device, CanMsg msg)
+        {
 
-        //SDO (Service Data Objects) is used for Receive_Transmission of variable Data length
-        public const Int16 SDO_Transmit = 1408; //580h +Node ID
-        public const Int16 SDO_Receive = 1536; //600h +Node ID
-
-        public const Int16 Heartbeat_Message = 1792;   //701h-780h plus ID CAN NODE
-        //Example CAN NODE Nr 100 sends Heartbeat Message with Identifier : 764h / 1892
-
+            UInt16 cob_id = (UInt16)msg.ID;
+            switch (cob_id >> 7)
+            {
+                case SYNC:		// can be a SYNC or a EMCY message 
+                    if (cob_id == 0x080)	// SYNC 
+                    {
+                        if (device.ComState.csSYNC == 1)
+                            proceedSYNC(device);
+                    }
+                    else		// EMCY 
+                        if (device.ComState.csEmergency == 1)
+                            proceedEMCY(device, msg);
+                    break;
+                // case TIME_STAMP: 
+                case PDO1tx:
+                case PDO1rx:
+                case PDO2tx:
+                case PDO2rx:
+                case PDO3tx:
+                case PDO3rx:
+                case PDO4tx:
+                case PDO4rx:
+                    if (device.ComState.csPDO == 1)
+                        proceedPDO(device, msg);
+                    break;
+                case SDOtx:
+                case SDOrx:
+                    if (device.ComState.csSDO == 1)
+                        proceedSDO(device, msg);
+                    break;
+                case NODE_GUARD:
+                    if (device.ComState.csLifeGuard == 1)
+                        proceedNODE_GUARD(device, msg);
+                    break;
+                case NMT:
+                    if (device.iam_a_slave)
+                        proceedNMTstateChange(device, msg);
+                    break;
+            }
+        }
+            */
+        
         /// <summary>
         /// Test
         /// </summary>
@@ -88,6 +145,9 @@ namespace CANBUS_MONITOR
         }
         
 
+
+
+        /*
         public static class PrimitiveConversion
             {
                 public static long ToLong<T>(T t) where T : struct
@@ -116,7 +176,7 @@ namespace CANBUS_MONITOR
 
                     return r;
                 }
-            }
+            }*/
 
     }
 }

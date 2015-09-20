@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace CANBUS_MONITOR
 {
-    class CAN_OPEN_PROTOCOL
-    {
-        //
-       
-        
-    }
+  
 
     public class CAN_MESSAGE
     {
