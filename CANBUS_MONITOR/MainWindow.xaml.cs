@@ -93,6 +93,8 @@ namespace CANBUS_MONITOR
         DataTable record1;
         DataTable record2;
 
+        private CANopen.Nodedictionary Nodelist = new CANopen.Nodedictionary();
+        private CANopen.Node tempnode = new CANopen.Node();
 
         //private DispatcherTimer dispatcherTimer = new DispatcherTimer();
             // Create a 30 min timer 
@@ -158,8 +160,17 @@ namespace CANBUS_MONITOR
                New_Firmware_Hex = new HexFile();
                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                timer.Interval = 1000;
-               
+               List<CANopen.Node> newlist = new List<CANopen.Node>();
+               for (byte i = 1; i < 12; i++)
+               {
+                   CANopen.Node newnode = new CANopen.Node();
 
+                   newnode.Node_ID = (byte)i;
+                   newnode.Set_State(0x05);
+                   newlist.Add(newnode);
+               }
+
+               Listview_Nodes.ItemsSource = newlist;
                
                // Add a listener for usb events
                CAN_Device.usbEvent += new CAN_Monitoring_Device.usbEventsHandler(usbEvent_receiver);
@@ -215,6 +226,12 @@ namespace CANBUS_MONITOR
             CAN_DATA_TEST.D5 = 0x00;
             CAN_DATA_TEST.D6 = 0x00;
             CAN_DATA_TEST.D7 = 0x00;
+
+            tempnode.Node_ID = 125;
+            Nodelist.AddNode(tempnode);
+            tempnode.Node_ID = 10;
+            Nodelist.AddNode(tempnode);
+
             //Run_Baud_Rate_Auto_Detect();
         }
 
@@ -599,14 +616,16 @@ namespace CANBUS_MONITOR
             /*CAN_Monitor_Functions.Create_Measuring_Table(Textboxname.Text);
             datatables = CAN_Monitor_Functions.Get_Table_Names();
             CAN_Monitor_Functions.update_combobox(datatables, ComboBoxtables, 2);*/
-
+            Debug.Print("{0}",Nodelist.NodeCount());
             CANopen.Node newnode = new CANopen.Node();
             newnode.Set_State(0x00);
+            newnode.Node_ID = 0x02;
+            Nodelist.AddNode(newnode);
+            Debug.Print("{0}", Nodelist.NodeCount());
 
-            
-            MessageBox.Show(newnode.State_Description);
-            newnode.Set_State(0x05);
-            MessageBox.Show(newnode.State_Description);
+            //MessageBox.Show(newnode.State_Description);
+            //newnode.Set_State(0x05);
+           // MessageBox.Show(newnode.State_Description);
 
 
         }

@@ -496,25 +496,35 @@
             <TabItem Style="{StaticResource TabItem_SI}" Header="Network Nodes"  Foreground="White" Height="20" Margin="-0.4,0,0.2,0" VerticalAlignment="Bottom" >
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="300"></RowDefinition>
-
                         <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="80"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
+                    
+                    <ItemsControl x:Name="Listview_Nodes" Background="Transparent">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource NodeButton}" Grid.Row="3" CommandParameter="{Binding}"  IsManipulationEnabled="True" >
+                                    <Grid HorizontalAlignment="Left" Width="180" Height="180">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="70*" />
+                                            <RowDefinition Height="15*" />
+                                            <RowDefinition Height="15*" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding Node_ID}" FontWeight="Normal" Foreground="{Binding Backgroundcolor}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72"/>
+                                        <Border Grid.Row="1" Grid.RowSpan="2" Background="{StaticResource DarkGrayBrush}" />
+                                        <TextBlock Margin="8,4" Grid.Row="1" Text="{Binding State}" HorizontalAlignment="Left" FontSize="12" />
+                                        <TextBlock Margin="8,0" Grid.Row="2" Text="{Binding State_Description}" HorizontalAlignment="Left" FontSize="12" />
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical" IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                      </ItemsControl>
 
-                            <ColumnDefinition Width="200"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>

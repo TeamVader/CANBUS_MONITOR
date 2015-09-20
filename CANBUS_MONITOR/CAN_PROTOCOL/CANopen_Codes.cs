@@ -74,14 +74,14 @@ namespace CANBUS_MONITOR
        #region NODE STATES
         public class Default_NODE_STATES
         {
-            private const byte Boot_Up = 0x00;
-            private const byte Disconnected = 0x01;
-            private const byte Connecting = 0x02;
-            private const byte Preparing = 0x02;
-            private const byte Stopped = 0x04;
-            private const byte Operational = 0x05;
-            private const byte Pre_operational = 0x7F;
-            private const byte Unknown_state = 0x0F;
+            public const byte Boot_Up = 0x00;
+            public const byte Disconnected = 0x01;
+            public const byte Connecting = 0x02;
+            public const byte Preparing = 0x02;
+            public const byte Stopped = 0x04;
+            public const byte Operational = 0x05;
+            public const byte Pre_operational = 0x7F;
+            public const byte Unknown_state = 0x0F;
 
             static Dictionary<Byte, string> Default_NODES_STATES_Dict = new Dictionary<Byte, string>()
             {
