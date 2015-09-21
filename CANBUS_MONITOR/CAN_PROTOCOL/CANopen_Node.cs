@@ -10,13 +10,22 @@ namespace CANBUS_MONITOR
 {
     public partial class CANopen
     {
-        public class Node
+        public class Node : IComparable
         {
             public Byte Node_ID { get; set; }
             public Byte State { get; set; }
             public String State_Description { get; set; }
-            public Brush Backgroundcolor { get; set; } 
+            public Brush Backgroundcolor { get; set; }
 
+            public int CompareTo(object obj)
+            {
+                if (obj == null) return 1;
+                Node othernode = obj as Node;
+                if (othernode != null)
+                    return this.Node_ID.CompareTo(othernode.Node_ID);
+                else
+                    throw new ArgumentException("Object is not a node");
+            }
 
             public void Set_State(Byte State)
             {
@@ -45,92 +54,10 @@ namespace CANBUS_MONITOR
 
         }
 
-        public class Nodedictionary
-        {
-            /// <summary>
-            /// Dictionary of all Nodes during monitoring
-            /// </summary>
-            private Dictionary<int, Node> Nodedict = new Dictionary<int,Node>();
-            private byte MAX_NODES = 0x7F;
-            private byte MIN_NODE_ID = 0x01;
-
-
-            /// <summary>
-            /// Check if node exists in Dictionary
-            /// </summary>
-            /// <param name="NodeID"></param>
-            /// <returns></returns>
-            public bool NodeExists(int NodeID)
-            {
-                if (Nodedict.ContainsKey(NodeID))
-                {
-                    return true;
-                }
-                return false;
-            }
-
-            /// <summary>
-            /// return node with at Node ID Key
-            /// </summary>
-            /// <param name="NodeID"></param>
-            /// <returns></returns>
-            public Node ReturnNode(int NodeID)
-            {
-                Node result;
-                if (Nodedict.TryGetValue(NodeID, out result))
-                {
-                    return result;
-                }
-                return null;
-            }
-
-
-            /// <summary>
-            /// Add a Node to the Dictionary
-            /// </summary>
-            /// <param name="newnode"></param>
-            /// <returns></returns>
-            public bool AddNode(Node newnode)
-            {
-                if (newnode.Node_ID > MAX_NODES || newnode.Node_ID < MIN_NODE_ID)
-                {
-                    Debug.Print("NodeID has to be in range between {0} to {1}",MIN_NODE_ID.ToString(), MAX_NODES.ToString());
-                    return false;
-                }
-                if (!NodeExists(newnode.Node_ID))
-                {
-                    Nodedict.Add(newnode.Node_ID, newnode);
-                    return true;
-                }
-                else
-                {
-                    Debug.Print("Node already Exists");
-                    return false;
-                }
-            }
-
-            public bool RemoveNode(int NodeID)
-            {
-                
-                if (NodeExists(NodeID))
-                {
-                    Nodedict.Remove(NodeID);
-                    return true;
-                }
-                else
-                {
-                    Debug.Print("Node is not existing");
-                    return false;
-                }
-            }
-
-            public int NodeCount()
-            {
-                return Nodedict.Count;
-            }
-
-        }
+        
 
 
     }
+
+    
 }

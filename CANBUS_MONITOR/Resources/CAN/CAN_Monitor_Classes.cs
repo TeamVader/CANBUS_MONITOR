@@ -135,6 +135,25 @@ namespace CANBUS_MONITOR
                 }
             }
 
+            private double _nodesize;
+
+            public double nodesize
+            {
+                get { return _nodesize; }
+                set
+                {
+                    _nodesize = value;
+                    InvokePropertyChanged("nodesize");
+                }
+            }
+
+
+            public void Setnodesize(Double newdouble)
+            {
+
+                nodesize = newdouble;
+            }
+
             public void SetisPrograming(bool newbool)
             {
 
@@ -210,11 +229,7 @@ namespace CANBUS_MONITOR
 
        
 
-        public class CAN_FRAME
-        {
-            byte Control_Byte { get; set; }
-
-        }
+        
     }
 
 

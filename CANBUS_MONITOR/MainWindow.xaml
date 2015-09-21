@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CANBUS_MONITOR.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:CANBUS_MONITOR"
+        xmlns:local="clr-namespace:CANBUS_MONITOR"       
         Title="MainWindow" MinWidth="1050" MinHeight="600" Height="600" Width="1050" WindowStartupLocation="CenterScreen"  MouseDown="Can_Bus_MouseDown" Style="{DynamicResource windowappstyle}" Template="{DynamicResource windowapp}" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary Source="Controltemplate.xaml"></ResourceDictionary>
@@ -218,7 +218,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="80"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-
+                    
                     <local:ListboxPIC VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="listboxrecording" Grid.Row="1" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                         <ListBox.Background>
                             <SolidColorBrush Color="{DynamicResource Grey}"/>
@@ -500,11 +500,11 @@
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
                     
-                    <ItemsControl x:Name="Listview_Nodes" Background="Transparent">
-                        <ItemsControl.ItemTemplate>
+                    <local:Nodegroup x:Name="Listview_Nodes"  Background="Transparent">
+                        <local:Nodegroup.ItemTemplate>
                             <DataTemplate>
                                 <Button Style="{StaticResource NodeButton}" Grid.Row="3" CommandParameter="{Binding}"  IsManipulationEnabled="True" >
-                                    <Grid HorizontalAlignment="Left" Width="180" Height="180">
+                                    <Grid HorizontalAlignment="Left" Width="{Binding Path=nodesize, ElementName=Listview_Nodes}" Height="{Binding Path=nodesize, ElementName=Listview_Nodes}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="70*" />
                                             <RowDefinition Height="15*" />
@@ -517,13 +517,13 @@
                                     </Grid>
                                 </Button>
                             </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Vertical" IsItemsHost="True" />
+                            </local:Nodegroup.ItemTemplate>
+                        <local:Nodegroup.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
                                 </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                      </ItemsControl>
+                        </local:Nodegroup.ItemsPanel>
+                    </local:Nodegroup>
 
                 </Grid>
             </TabItem>

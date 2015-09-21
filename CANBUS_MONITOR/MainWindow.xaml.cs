@@ -93,7 +93,7 @@ namespace CANBUS_MONITOR
         DataTable record1;
         DataTable record2;
 
-        private CANopen.Nodedictionary Nodelist = new CANopen.Nodedictionary();
+        private Nodegroup Node_group = new Nodegroup();
         private CANopen.Node tempnode = new CANopen.Node();
 
         //private DispatcherTimer dispatcherTimer = new DispatcherTimer();
@@ -154,23 +154,37 @@ namespace CANBUS_MONITOR
                CAN_Device_Notifications.SetNormalMode(false);
 
                DataContext = CAN_Device_Notifications;
+               Listview_Nodes.ItemsSource = Node_group.Nodecollection;
 
                CAN_Device = new CAN_Monitoring_Device(0x04D8, 0x0070);
                Bootloader_Device = new Bootloader_Device(0x04D8, 0x003C);
                New_Firmware_Hex = new HexFile();
                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                timer.Interval = 1000;
-               List<CANopen.Node> newlist = new List<CANopen.Node>();
-               for (byte i = 1; i < 12; i++)
+
+               byte[] idtest = new byte[12];
+
+               idtest[0] = 1;
+               idtest[1] = 10;
+               idtest[2] = 2;
+               idtest[3] = 6;
+               idtest[4] = 9;
+               idtest[5] = 100;
+               idtest[6] = 30;
+               idtest[7] = 20;
+               idtest[8] = 8;
+               idtest[9] = 3;
+               for (byte i = 0; i < 10; i++)
                {
                    CANopen.Node newnode = new CANopen.Node();
 
-                   newnode.Node_ID = (byte)i;
+                   newnode.Node_ID = idtest[i];
                    newnode.Set_State(0x05);
-                   newlist.Add(newnode);
+                   Node_group.AddNode(newnode);
                }
 
-               Listview_Nodes.ItemsSource = newlist;
+               
+             //
                
                // Add a listener for usb events
                CAN_Device.usbEvent += new CAN_Monitoring_Device.usbEventsHandler(usbEvent_receiver);
@@ -227,10 +241,7 @@ namespace CANBUS_MONITOR
             CAN_DATA_TEST.D6 = 0x00;
             CAN_DATA_TEST.D7 = 0x00;
 
-            tempnode.Node_ID = 125;
-            Nodelist.AddNode(tempnode);
-            tempnode.Node_ID = 10;
-            Nodelist.AddNode(tempnode);
+            
 
             //Run_Baud_Rate_Auto_Detect();
         }
@@ -616,13 +627,17 @@ namespace CANBUS_MONITOR
             /*CAN_Monitor_Functions.Create_Measuring_Table(Textboxname.Text);
             datatables = CAN_Monitor_Functions.Get_Table_Names();
             CAN_Monitor_Functions.update_combobox(datatables, ComboBoxtables, 2);*/
-            Debug.Print("{0}",Nodelist.NodeCount());
-            CANopen.Node newnode = new CANopen.Node();
-            newnode.Set_State(0x00);
-            newnode.Node_ID = 0x02;
-            Nodelist.AddNode(newnode);
-            Debug.Print("{0}", Nodelist.NodeCount());
+            Random rd = new Random();
 
+            Debug.Print("{0}",Node_group.NodeCount());
+
+            CANopen.Node newnode = new CANopen.Node();
+            newnode.Set_State(0x04);
+            newnode.Node_ID = (byte)rd.Next(1, 127);
+            Node_group.AddNode(newnode);
+            Debug.Print("{0}", Node_group.NodeCount());
+
+            //CAN_Device_Notifications.Setnodesize(200);
             //MessageBox.Show(newnode.State_Description);
             //newnode.Set_State(0x05);
            // MessageBox.Show(newnode.State_Description);
