@@ -165,7 +165,7 @@ namespace CANBUS_MONITOR
                New_Firmware_Hex = new HexFile();
                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                timer.Interval = 1000;
-
+               Node_group.nodesize = 100;
                byte[] idtest = new byte[12];
 
                idtest[0] = 1;
@@ -184,7 +184,7 @@ namespace CANBUS_MONITOR
 
                    newnode.Node_ID = idtest[i];
                    newnode.Set_State(0x05);
-                   Node_group.Add(i,newnode);
+                   Node_group.Add(newnode.Node_ID,newnode);
                    j = i;
                 }
 
@@ -638,14 +638,14 @@ namespace CANBUS_MONITOR
 
             CANopen.Node newnode = new CANopen.Node();
             newnode.Set_State(0x04);
-
+            newnode.Node_ID = (byte)rd.Next(1, 127);
             // Node_group.OrderBy(i => i.Key);
-            //if(!Node_group.NodeExists(newnode.Node_ID))
-            //Node_group[1] = newnode;
+            if(!Node_group.NodeExists(newnode.Node_ID))
+            Node_group.Add(newnode.Node_ID,newnode);
             
             
             Debug.Print("{0}", Node_group.Count.ToString());
-           // Node_group.nodesize = 200;
+            Node_group.nodesize = 200;
             //CAN_Device_Notifications.Setnodesize(200);
             //MessageBox.Show(newnode.State_Description);
             //newnode.Set_State(0x05);

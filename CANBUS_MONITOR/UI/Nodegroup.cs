@@ -14,19 +14,10 @@ using System.Collections;
 
 namespace CANBUS_MONITOR
 {
-    public class Nodegroup : ObservableDictionary<int, CANopen.Node>
+    public class Nodegroup : ObservableSortedDictionary<int, CANopen.Node> , INotifyPropertyChanged
     {
         
 
-        
-        /// <summary>
-        /// List of all Nodes during monitoring
-        /// 
-        /// </summary>
-        
-
-        /*
-        
 
         private double _nodesize ;
 
@@ -36,6 +27,7 @@ namespace CANBUS_MONITOR
             set 
             { 
                 _nodesize = value;
+                InvokePropertyChanged("nodesize");
             }
         }
 
@@ -43,27 +35,46 @@ namespace CANBUS_MONITOR
 
         private byte MAX_NODES = 0x7F;
         private byte MIN_NODE_ID = 0x01;
-  */
-        public Nodegroup(): base() //new KeyComparer()
+  
+        public Nodegroup(): base(new KeyComparer()) //
         {
            
         }
 
         #region key comparer class
-        /*
+        
         private class KeyComparer : IComparer<DictionaryEntry>
         {
             public int Compare(DictionaryEntry entry1, DictionaryEntry entry2)
             {
-                return string.Compare((string)entry1.Key, (string)entry2.Key, StringComparison.InvariantCultureIgnoreCase);
+                int resultx = (int)entry1.Key;
+                int resulty = (int)entry2.Key;
+                return resultx.CompareTo(resulty);
             }
         }
-        */
+        
         #endregion key comparer class
 
-        
 
+        public bool NodeExists(int NodeID)
+        {
+            if(this.ContainsKey(NodeID))
+                return true;
+            return false;
+        }
 
+        public void InvokePropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                // Debug.Print("dAS");
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
  
 
         

@@ -502,11 +502,11 @@
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <ItemsControl x:Name="Listview_Nodes"  ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
+                    <ItemsControl x:Name="Itemscontrol_Nodes" ScrollViewer.VerticalScrollBarVisibility="Visible"  ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Style="{StaticResource NodeButton}" Grid.Row="3" CommandParameter="{Binding}"  IsManipulationEnabled="True" >
-                                    <Grid HorizontalAlignment="Left" Width="180" Height="180">
+                                    <Grid HorizontalAlignment="Left" Width="{Binding nodesize, Source={StaticResource Nodegroupwpf}}" Height="{Binding nodesize,Source={StaticResource Nodegroupwpf}}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="70*" />
                                             <RowDefinition Height="15*" />

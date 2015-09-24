@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace CANBUS_MONITOR
 {
@@ -97,11 +98,15 @@ namespace CANBUS_MONITOR
         private int BinaryFindInsertionIndex(int first, int last, DictionaryEntry entry)
         {
             if (last < first)
+            {
+
                 return first;
+            }
             else
             {
                 int mid = first + (int)((last - first) / 2);
                 int result = _comparer.Compare(_keyedEntryCollection[mid], entry);
+
                 if (result == 0)
                     return mid;
                 else if (result < 0)
