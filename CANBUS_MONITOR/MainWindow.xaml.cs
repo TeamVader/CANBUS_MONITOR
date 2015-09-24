@@ -20,9 +20,6 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 
 using System.Windows.Interop;
-
-
-#if (DEBUG)
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -30,6 +27,9 @@ using System.Windows.Threading;
 using System.Timers;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Collections;
+
+#if (DEBUG)
 
 
 #endif
@@ -93,13 +93,15 @@ namespace CANBUS_MONITOR
         DataTable record1;
         DataTable record2;
 
-        private Nodegroup Node_group = new Nodegroup();
+        private int j;
+
+        private Nodegroup Node_group = null;
         private CANopen.Node tempnode = new CANopen.Node();
 
         //private DispatcherTimer dispatcherTimer = new DispatcherTimer();
             // Create a 30 min timer 
         private System.Timers.Timer timer = new System.Timers.Timer();
-
+        
     // Hook up the Elapsed event for the timer.
     
 
@@ -114,10 +116,12 @@ namespace CANBUS_MONITOR
         public MainWindow()
         {
             InitializeComponent();
-               
+
+
+               Node_group = FindResource("Nodegroupwpf") as Nodegroup;
                USB_Event.DoWork += USB_Event_DoWork;
                USB_Event.RunWorkerCompleted +=USB_Event_RunWorkerCompleted;
-
+               
                USB_Data_Gatherer.DoWork += USB_Data_Gatherer_DoWork;
                USB_Data_Gatherer.WorkerReportsProgress = true;
                USB_Data_Gatherer.WorkerSupportsCancellation = true;
@@ -154,7 +158,7 @@ namespace CANBUS_MONITOR
                CAN_Device_Notifications.SetNormalMode(false);
 
                DataContext = CAN_Device_Notifications;
-               Listview_Nodes.ItemsSource = Node_group.Nodecollection;
+              
 
                CAN_Device = new CAN_Monitoring_Device(0x04D8, 0x0070);
                Bootloader_Device = new Bootloader_Device(0x04D8, 0x003C);
@@ -180,8 +184,9 @@ namespace CANBUS_MONITOR
 
                    newnode.Node_ID = idtest[i];
                    newnode.Set_State(0x05);
-                   Node_group.AddNode(newnode);
-               }
+                   Node_group.Add(i,newnode);
+                   j = i;
+                }
 
                
              //
@@ -629,14 +634,18 @@ namespace CANBUS_MONITOR
             CAN_Monitor_Functions.update_combobox(datatables, ComboBoxtables, 2);*/
             Random rd = new Random();
 
-            Debug.Print("{0}",Node_group.NodeCount());
+            Debug.Print("{0}",Node_group.Count.ToString());
 
             CANopen.Node newnode = new CANopen.Node();
             newnode.Set_State(0x04);
-            newnode.Node_ID = (byte)rd.Next(1, 127);
-            Node_group.AddNode(newnode);
-            Debug.Print("{0}", Node_group.NodeCount());
 
+            // Node_group.OrderBy(i => i.Key);
+            //if(!Node_group.NodeExists(newnode.Node_ID))
+            //Node_group[1] = newnode;
+            
+            
+            Debug.Print("{0}", Node_group.Count.ToString());
+           // Node_group.nodesize = 200;
             //CAN_Device_Notifications.Setnodesize(200);
             //MessageBox.Show(newnode.State_Description);
             //newnode.Set_State(0x05);

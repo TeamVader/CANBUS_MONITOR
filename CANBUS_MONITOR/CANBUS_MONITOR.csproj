@@ -65,8 +65,10 @@
     <Compile Include="CAN_PROTOCOL\CANopen_Codes.cs" />
     <Compile Include="CAN_PROTOCOL\CANopen_Node.cs" />
     <Compile Include="CAN_PROTOCOL\CAN_PROTOCOL_MCP2515.cs" />
-    <Compile Include="CAN_PROTOCOL\Nodegroup.cs" />
+    <Compile Include="UI\Nodegroup.cs" />
     <Compile Include="Resources\CAN\Hardware_Config.cs" />
+    <Compile Include="UI\ObservableDictionary.cs" />
+    <Compile Include="UI\ObservableSortedDictionary.cs" />
     <Compile Include="usbGenericCommunications\deviceCommunication.cs">
       <SubType>Component</SubType>
     </Compile>

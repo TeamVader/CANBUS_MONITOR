@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,59 @@ namespace CANBUS_MONITOR
 {
     public partial class CANopen
     {
-        public class Node : IComparable
+        public class Node : INotifyPropertyChanged//: IComparable
         {
-            public Byte Node_ID { get; set; }
-            public Byte State { get; set; }
-            public String State_Description { get; set; }
-            public Brush Backgroundcolor { get; set; }
+            private Byte _Node_ID;
+            public Byte Node_ID 
+            {
+                get { return _Node_ID; }
+                
+                set 
+                { 
+                    _Node_ID =value;
+                    InvokePropertyChanged("Node_ID");
+                }
+            }
 
+            private Byte _State;
+            public Byte State
+            {
+                get { return _State; }
+
+                set
+                {
+                    _State = value;
+                    InvokePropertyChanged("State");
+                }
+            }
+
+            private String _State_Description;
+            public String State_Description 
+            {
+                get { return _State_Description; }
+
+                set
+                {
+                    _State_Description = value;
+                    InvokePropertyChanged("State_Description");
+                }
+             }
+
+
+            private Brush _Backgroundcolor;
+            public Brush Backgroundcolor
+            {
+                get { return _Backgroundcolor; }
+
+                set
+                {
+                    _Backgroundcolor = value;
+                    InvokePropertyChanged("Backgroundcolor");
+                }
+            }
+
+
+            /*
             public int CompareTo(object obj)
             {
                 if (obj == null) return 1;
@@ -25,7 +72,7 @@ namespace CANBUS_MONITOR
                     return this.Node_ID.CompareTo(othernode.Node_ID);
                 else
                     throw new ArgumentException("Object is not a node");
-            }
+            }*/
 
             public void Set_State(Byte State)
             {
@@ -51,6 +98,19 @@ namespace CANBUS_MONITOR
                         return new SolidColorBrush(Colors.White);
                 }
             }
+
+            public void InvokePropertyChanged(string propertyName)
+            {
+                var handler = PropertyChanged;
+
+                if (handler != null)
+                {
+                    // Debug.Print("dAS");
+                    handler(this, new PropertyChangedEventArgs(propertyName));
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
 
         }
 

@@ -30,14 +30,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Windows;
 // The following namespace allows debugging output (when compiled in debug mode)
 using System.Diagnostics;
+using usbGenericHidCommunications;
+
 
 namespace CANBUS_MONITOR
     {
-        using usbGenericHidCommunications;
-        using System.Windows;
+        
 
     /// <summary>
     /// This class performs several different tests against the 

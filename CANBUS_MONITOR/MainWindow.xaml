@@ -5,11 +5,13 @@
         Title="MainWindow" MinWidth="1050" MinHeight="600" Height="600" Width="1050" WindowStartupLocation="CenterScreen"  MouseDown="Can_Bus_MouseDown" Style="{DynamicResource windowappstyle}" Template="{DynamicResource windowapp}" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary Source="Controltemplate.xaml"></ResourceDictionary>
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
+            
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -499,31 +501,31 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
-                    
-                    <local:Nodegroup x:Name="Listview_Nodes"  Background="Transparent">
-                        <local:Nodegroup.ItemTemplate>
+
+                    <ItemsControl x:Name="Listview_Nodes"  ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Style="{StaticResource NodeButton}" Grid.Row="3" CommandParameter="{Binding}"  IsManipulationEnabled="True" >
-                                    <Grid HorizontalAlignment="Left" Width="{Binding Path=nodesize, ElementName=Listview_Nodes}" Height="{Binding Path=nodesize, ElementName=Listview_Nodes}">
+                                    <Grid HorizontalAlignment="Left" Width="180" Height="180">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="70*" />
                                             <RowDefinition Height="15*" />
                                             <RowDefinition Height="15*" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding Node_ID}" FontWeight="Normal" Foreground="{Binding Backgroundcolor}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72"/>
+                                        <TextBlock Grid.Row="0" Text="{Binding Value.Node_ID}" FontWeight="Normal" Foreground="{Binding  Value.Backgroundcolor}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72"/>
                                         <Border Grid.Row="1" Grid.RowSpan="2" Background="{StaticResource DarkGrayBrush}" />
-                                        <TextBlock Margin="8,4" Grid.Row="1" Text="{Binding State}" HorizontalAlignment="Left" FontSize="12" />
-                                        <TextBlock Margin="8,0" Grid.Row="2" Text="{Binding State_Description}" HorizontalAlignment="Left" FontSize="12" />
+                                        <TextBlock Margin="8,4" Grid.Row="1" Text="{Binding  Value.State}" HorizontalAlignment="Left" FontSize="12" />
+                                        <TextBlock Margin="8,0" Grid.Row="2" Text="{Binding  Value.State_Description}" HorizontalAlignment="Left" FontSize="12" />
                                     </Grid>
                                 </Button>
                             </DataTemplate>
-                            </local:Nodegroup.ItemTemplate>
-                        <local:Nodegroup.ItemsPanel>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
                                 </ItemsPanelTemplate>
-                        </local:Nodegroup.ItemsPanel>
-                    </local:Nodegroup>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
 
                 </Grid>
             </TabItem>

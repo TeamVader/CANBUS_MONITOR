@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,18 @@ namespace CANBUS_MONITOR
         #region BIND CAN DEVICE STATE TO CONTROLS
         public class Connection_Monitoring : INotifyPropertyChanged
         {
+
+          /*  private Nodegroup _nodegroup = new Nodegroup();
+            public Nodegroup Nodegroup
+            {
+
+                get { return _nodegroup; }
+                set
+                {
+                    _nodegroup = value;
+                }
+            }*/
+
             private string _mode;
             public string Mode
             {
@@ -218,7 +231,7 @@ namespace CANBUS_MONITOR
 
                 if (handler != null)
                 {
-
+                   // Debug.Print("dAS");
                     handler(this, new PropertyChangedEventArgs(propertyName));
                 }
             }
