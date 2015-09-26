@@ -159,6 +159,7 @@
     <Resource Include="Logo blau neu.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Canopen_logo.png" />
     <Resource Include="Resources\Logo blau neu.ico" />
   </ItemGroup>
   <ItemGroup>

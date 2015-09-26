@@ -19,7 +19,8 @@
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label x:Name="Label_Title" Foreground="White" FontSize="36" Content="Controller Area Network Monitoring" />
+            <Label VerticalContentAlignment="Top" x:Name="Label_Title" Foreground="White" FontSize="36" Content="Controller Area Network Monitoring" />
+            <Image VerticalAlignment="Bottom" Source="/Resources/Canopen_Logo.png" HorizontalAlignment="Left" Height="45" RenderOptions.EdgeMode="Aliased"  RenderOptions.BitmapScalingMode="HighQuality"  />
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
@@ -501,21 +502,21 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
-
-                    <ItemsControl x:Name="Itemscontrol_Nodes" ScrollViewer.VerticalScrollBarVisibility="Visible"  ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
+                    
+                    <ItemsControl x:Name="Itemscontrol_Nodes" Height="400"   ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Style="{StaticResource NodeButton}" Grid.Row="3" CommandParameter="{Binding}"  IsManipulationEnabled="True" >
+                                <Button Style="{StaticResource NodeButton}"  CommandParameter="{Binding}"  IsManipulationEnabled="True" >
                                     <Grid HorizontalAlignment="Left" Width="{Binding nodesize, Source={StaticResource Nodegroupwpf}}" Height="{Binding nodesize,Source={StaticResource Nodegroupwpf}}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="70*" />
                                             <RowDefinition Height="15*" />
                                             <RowDefinition Height="15*" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding Value.Node_ID}" FontWeight="Normal" Foreground="{Binding  Value.Backgroundcolor}" Margin="8,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72"/>
+                                        <TextBlock Grid.Row="0" Text="{Binding Value.Node_ID}" FontWeight="Normal"  Foreground="{Binding  Value.Backgroundcolor}" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="72"/>
                                         <Border Grid.Row="1" Grid.RowSpan="2" Background="{StaticResource DarkGrayBrush}" />
-                                        <TextBlock Margin="8,4" Grid.Row="1" Text="{Binding  Value.State}" HorizontalAlignment="Left" FontSize="12" />
-                                        <TextBlock Margin="8,0" Grid.Row="2" Text="{Binding  Value.State_Description}" HorizontalAlignment="Left" FontSize="12" />
+                                        <TextBlock  Grid.Row="1" Text="{Binding  Value.State}" HorizontalAlignment="Left" FontSize="12" />
+                                        <TextBlock  Grid.Row="2" Text="{Binding  Value.State_Description}" HorizontalAlignment="Left" FontSize="12" />
                                     </Grid>
                                 </Button>
                             </DataTemplate>
