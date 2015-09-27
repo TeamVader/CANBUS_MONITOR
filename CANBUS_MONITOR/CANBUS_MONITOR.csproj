@@ -65,6 +65,8 @@
     <Compile Include="CAN_PROTOCOL\CANopen_Codes.cs" />
     <Compile Include="CAN_PROTOCOL\CANopen_Node.cs" />
     <Compile Include="CAN_PROTOCOL\CAN_PROTOCOL_MCP2515.cs" />
+    <Compile Include="Threads\Threads.cs" />
+    <Compile Include="UI\Listbox.cs" />
     <Compile Include="UI\Nodegroup.cs" />
     <Compile Include="Resources\CAN\Hardware_Config.cs" />
     <Compile Include="UI\ObservableDictionary.cs" />
@@ -111,7 +113,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Resources\CAN\CAN_Monitor_Classes.cs" />
+    <Compile Include="UI\CAN_Monitor_Classes.cs" />
     <Compile Include="Resources\CAN\CAN_Monitor_Functions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

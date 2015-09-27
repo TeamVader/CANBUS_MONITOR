@@ -28,6 +28,7 @@ using System.Timers;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Collections;
+using System.Collections.Concurrent;
 
 #if (DEBUG)
 
@@ -38,19 +39,7 @@ namespace CANBUS_MONITOR
 {
 
 
-    public class ListboxPIC : ListBox
-    {
-        
-        public void addItem(string newitem)
-        {
-            this.Items.Add(newitem);
-            if (this.Items.Count > 10)
-            {
-               // MessageBox.Show(this.Items.Count.ToString());
-                this.Items.RemoveAt(0);
-            }
-        }
-    }
+   
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -1082,14 +1071,14 @@ namespace CANBUS_MONITOR
             #endif
 
             byte[] readBuffer = new byte[64];
-            byte dummy;
-            int datalength;
-            int counter = 0;
-            bool extid = false;
-            bool buffer1full = false;
-           
-
             
+            int counter = 0;
+            
+            bool buffer1full = false;
+
+
+            BlockingCollection<Byte[]> bcoutput = new BlockingCollection<Byte[]>();
+            CancellationTokenSource src = new CancellationTokenSource();
 
             //int result = 0;
             int i = 0;
@@ -1102,8 +1091,8 @@ namespace CANBUS_MONITOR
                 
                // System.Threading.Thread.Sleep(1);
 
-           
-             
+
+            Task.Run(() => UserThreads.ListboxConsumer(bcoutput,Listbox_canopen,src));
              
 
              try
@@ -1140,6 +1129,8 @@ namespace CANBUS_MONITOR
                      {
                          counter++;
                          (sender as BackgroundWorker).ReportProgress(counter, readBuffer);
+
+                         bcoutput.Add(readBuffer);
 
                          if(counter%100==0)
                          {
@@ -1207,6 +1198,7 @@ namespace CANBUS_MONITOR
 
              }
 
+             src.Cancel(false);
              if (!CAN_Device.isDeviceAttached)
              {
                  CAN_Device.findTargetDevice();
@@ -1667,6 +1659,12 @@ namespace CANBUS_MONITOR
                 CAN_Device_Informations();
                 //CAN_Device_Notifications.SetMode(CAN_Device.MCP_2515_Get_Operation_Mode());
             }
+        }
+
+        private void buttontestcanopen_Click(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() => UserThreads.EmulateCanNetwork(5,Listbox_canopen));
+
         }
 
         

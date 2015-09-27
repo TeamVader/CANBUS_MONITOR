@@ -214,6 +214,7 @@
     <SolidColorBrush x:Key="LightGrayBrush" Color="{StaticResource LightGray}" />
     <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource DarkGray}" />
     
+    
     <Style x:Key="Bluebutton" TargetType="{x:Type Button}">
         <Setter Property="Template">
             <Setter.Value>
@@ -561,6 +562,11 @@
                    Storyboard.TargetProperty="Opacity">
         </DoubleAnimation>
     </Storyboard>
+
+    <Storyboard x:Key="FadeUpAndFlash">
+        <DoubleAnimation From="1" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Duration="0:0:2" FillBehavior="Stop"/>
+    </Storyboard>
+
     <Style x:Key="NodeButton" TargetType="Button">
         <Setter Property="Background" Value="DarkGray" />
         <Setter Property="Foreground" Value="White" />

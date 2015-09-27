@@ -32,7 +32,7 @@ namespace CANBUS_MONITOR
             /// <summary>
             /// Communication profile DS-301
             ///</summary>
-            static Dictionary<Byte, string> Default_Identifier_Setup_Dict = new Dictionary<Byte, string>()
+            public static Dictionary<Byte, string> Default_Identifier_Setup_Dict = new Dictionary<Byte, string>()
             {
                 {NMT,"NMT"},
                 {SYNC,"EMCY"},
