@@ -27,7 +27,7 @@ namespace CANBUS_MONITOR
         public void addItem(string newitem)
         {
             this.Items.Add(newitem);
-            if (this.Items.Count > 8)
+            if (this.Items.Count > 6)
             {
                 // MessageBox.Show(this.Items.Count.ToString());
                 this.Items.RemoveAt(0);

@@ -106,10 +106,16 @@ namespace CANBUS_MONITOR
         private string time = "";
         #endif
         
-        public MainWindow()
-        {
-            InitializeComponent();
+        
 
+        #region Window
+            public MainWindow()
+              {
+              InitializeComponent();
+              this.CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, this.OnCloseWindow));
+              this.CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, this.OnMaximizeWindow, this.OnCanResizeWindow));
+              this.CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, this.OnMinimizeWindow, this.OnCanMinimizeWindow));
+              this.CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, this.OnRestoreWindow, this.OnCanResizeWindow));
 
                Node_group = FindResource("Nodegroupwpf") as Nodegroup;
                USB_Event.DoWork += USB_Event_DoWork;
@@ -159,7 +165,7 @@ namespace CANBUS_MONITOR
                New_Firmware_Hex = new HexFile();
                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                timer.Interval = 1000;
-               Node_group.nodesize = 70;
+               Node_group.nodesize = 65;
                
                 
 
@@ -225,9 +231,42 @@ namespace CANBUS_MONITOR
 
             //Run_Baud_Rate_Auto_Detect();
         }
+        private void OnCanResizeWindow(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ResizeMode == ResizeMode.CanResize || this.ResizeMode == ResizeMode.CanResizeWithGrip;
+        }
+
+        private void OnCanMinimizeWindow(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.ResizeMode != ResizeMode.NoResize;
+        }
+
+        private void OnCloseWindow(object target, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.CloseWindow(this);
+            Application.Current.Shutdown();
+            
+        }
+
+        private void OnMaximizeWindow(object target, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MaximizeWindow(this);
+        }
+
+        private void OnMinimizeWindow(object target, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.MinimizeWindow(this);
+        }
+
+        private void OnRestoreWindow(object target, ExecutedRoutedEventArgs e)
+        {
+            SystemCommands.RestoreWindow(this);
+        }
+
+        #endregion
 
         #region timer
-         public void OnTimedEvent(object source, ElapsedEventArgs e)
+        public void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             if (CAN_Device.isDeviceAttached && !CAN_Device_Notifications.Recording && CAN_Device_Notifications.Mode == "Mode : Normal Operation Mode")
             {
@@ -598,7 +637,7 @@ namespace CANBUS_MONITOR
         {
             // CAN_Monitor_Functions.clearusbdevice(CAN_Monitoring_Device);
             this.Close();
-            Application.Current.Shutdown();
+           
 
         }
 

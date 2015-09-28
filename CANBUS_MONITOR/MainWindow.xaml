@@ -52,7 +52,42 @@
                 <Label x:Name="Label_Bus_Speed" Content="{Binding Speed}"  Foreground="White" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
             </Grid>
-            <Button x:Name="Buttonclose" Grid.Column="2" Grid.Row="0" Content="Close" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="75" Click="Buttonclose_Click" OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Grid.Column="2" Grid.Row="0">
+                <Button Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" ToolTip="minimize" Style="{StaticResource WindowButtonStyle}">
+                    <Button.Content>
+                        <Grid Width="30" Height="25" RenderTransform="1,0,0,1,0,1">
+                            <Path Data="M0,6 L8,6 Z" Width="8" Height="7" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                        Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2"  />
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Grid Margin="1,0,1,0">
+                    <Button x:Name="Restore" Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}" ToolTip="restore" Visibility="Collapsed" Style="{StaticResource WindowButtonStyle}">
+                        <Button.Content>
+                            <Grid Width="30" Height="25" UseLayoutRounding="True" RenderTransform="1,0,0,1,.5,.5">
+                                <Path Data="M2,0 L8,0 L8,6 M0,3 L6,3 M0,2 L6,2 L6,8 L0,8 Z" Width="8" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="1"  />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="Maximize" Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}" ToolTip="maximize" Style="{StaticResource WindowButtonStyle}">
+                        <Button.Content>
+                            <Grid Width="31" Height="25">
+                                <Path Data="M0,1 L9,1 L9,8 L0,8 Z" Width="9" Height="8" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                            Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2"  />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+                <Button Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" ToolTip="close"  Style="{StaticResource WindowButtonStyle}">
+                    <Button.Content>
+                        <Grid Width="30" Height="25" RenderTransform="1,0,0,1,0,1">
+                            <Path Data="M0,0 L8,7 M8,0 L0,7 Z" Width="8" Height="7" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                        Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="1.5"  />
+                        </Grid>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
             <Button x:Name="Buttonhelp" Grid.Column="2" Grid.Row="0" Content="Help" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="75" OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" RenderTransformOrigin="1.979,0.313" Height="16" Click="Buttonhelp_Click" />
 
             <Border x:Name="Recording" Grid.Column="2" BorderThickness="1" CornerRadius="4" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center" Width="150" Height="20"  Grid.Row="0"  >
@@ -518,8 +553,8 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="200"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -552,7 +587,7 @@
                         <Label x:Name="Label_Error_Counter" Content="Error Counter "  Foreground="White" Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Left" />
                         <Button x:Name="buttontestcanopen" Grid.Column="0"  Content="Test" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" Grid.Row="10" Click="buttontestcanopen_Click"  />
                     </Grid>
-                    <ItemsControl x:Name="Itemscontrol_Nodes" Height="400" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"  HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
+                    <ItemsControl x:Name="Itemscontrol_Nodes"  Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"  HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Style="{StaticResource NodeButton}"  CommandParameter="{Binding}"  IsManipulationEnabled="True" >
@@ -562,10 +597,10 @@
                                             <RowDefinition Height="15*" />
                                             <RowDefinition Height="15*" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding Value.Node_ID}" FontWeight="Normal"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="50"/>
+                                        <TextBlock Grid.Row="0" Text="{Binding Value.Node_ID}" FontWeight="Normal"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="42"/>
                                         <Border Grid.Row="1" Grid.RowSpan="2" Background="{StaticResource DarkGrayBrush}" />
-                                        <TextBlock  Grid.Row="1" Text="{Binding  Value.State}" HorizontalAlignment="Left" FontSize="12" />
-                                        <TextBlock  Grid.Row="2" Text="{Binding  Value.State_Description}" HorizontalAlignment="Left" FontSize="12" />
+                                        <TextBlock  Grid.Row="1" Text="{Binding  Value.State}" HorizontalAlignment="Left" FontSize="8" />
+                                        <TextBlock  Grid.Row="2" Text="{Binding  Value.State_Description}" HorizontalAlignment="Left" FontSize="8" />
                                     </Grid>
                                 </Button>
                             </DataTemplate>
