@@ -623,7 +623,7 @@ namespace CANBUS_MONITOR
             CAN_Monitor_Functions.update_combobox(datatables, ComboBoxtables, 2);*/
             Random rd = new Random();
 
-            Debug.Print("{0}",Node_group.Count.ToString());
+            //Debug.Print("{0}",Node_group.Count.ToString());
 
             CANopen.Node newnode = new CANopen.Node();
             newnode.Set_State(0x04);
@@ -633,7 +633,7 @@ namespace CANBUS_MONITOR
             Node_group.Add(newnode.Node_ID,newnode);
             
             
-            Debug.Print("{0}", Node_group.Count.ToString());
+            //Debug.Print("{0}", Node_group.Count.ToString());
             Node_group.nodesize = 200;
             //CAN_Device_Notifications.Setnodesize(200);
             //MessageBox.Show(newnode.State_Description);
@@ -1663,7 +1663,7 @@ namespace CANBUS_MONITOR
 
         private void buttontestcanopen_Click(object sender, RoutedEventArgs e)
         {
-            Task.Run(() => UserThreads.EmulateCanNetwork(5,Listbox_canopen));
+            Task.Run(() => UserThreads.EmulateCanNetwork(1,Listbox_canopen, Node_group));
 
         }
 

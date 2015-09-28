@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Collections;
-
+using System.Collections.Concurrent;
 
 
 namespace CANBUS_MONITOR

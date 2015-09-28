@@ -31,6 +31,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
@@ -106,7 +107,7 @@ namespace CANBUS_MONITOR
         {
             get { return _keyedEntryCollection.Count; }
         }
-
+       
         public Dictionary<TKey, TValue>.KeyCollection Keys
         {
             get { return TrueDictionary.Keys; }
