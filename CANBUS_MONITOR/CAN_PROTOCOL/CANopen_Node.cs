@@ -48,7 +48,7 @@ namespace CANBUS_MONITOR
                     InvokePropertyChanged("State_Description");
                 }
              }
-
+            /*
 
             private Brush _Backgroundcolor;
             public Brush Backgroundcolor
@@ -61,7 +61,7 @@ namespace CANBUS_MONITOR
                     InvokePropertyChanged("Backgroundcolor");
                 }
             }
-
+            */
 
             /*
             public int CompareTo(object obj)
@@ -78,8 +78,9 @@ namespace CANBUS_MONITOR
             {
                 this.State = State;
                 this.State_Description = Default_NODE_STATES.GetDescription(State);
-                this.Backgroundcolor = Get_State_Color(State);
+              //  this.Backgroundcolor = Get_State_Color(State);
             }
+            /*
             public Brush Get_State_Color(Byte State)
             {
                 switch (State)
@@ -98,7 +99,7 @@ namespace CANBUS_MONITOR
                         return new SolidColorBrush(Colors.White);
                 }
             }
-
+            */
             public void InvokePropertyChanged(string propertyName)
             {
                 var handler = PropertyChanged;

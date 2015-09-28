@@ -78,7 +78,7 @@
     <Compile Include="UI\ObservableDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\ObservableSortedDictionary.cs">
+    <Compile Include="UI\ObservableConcurrentSortedDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="usbGenericCommunications\deviceCommunication.cs">

@@ -72,7 +72,11 @@ namespace CANBUS_MONITOR
         private BackgroundWorker Baud_Rate_Detect = new BackgroundWorker();
         private BackgroundWorker SQLRecord_Inserter = new BackgroundWorker();
         private BackgroundWorker SQLRecord_Inserter2 = new BackgroundWorker();
+
         private BackgroundWorker Device_Programer = new BackgroundWorker();
+
+       
+
         public CAN_Monitor_Classes.Connection_Monitoring CAN_Device_Notifications;
         private CAN_Monitoring_Device CAN_Device;
         private Bootloader_Device Bootloader_Device;
@@ -131,6 +135,7 @@ namespace CANBUS_MONITOR
                Baud_Rate_Detect.ProgressChanged += Baud_Rate_Detect_ProgressChanged;
                Baud_Rate_Detect.RunWorkerCompleted += Baud_Rate_Detect_RunWorkerCompleted;
 
+              
 
                Device_Programer.DoWork += Program_Bootloader_device;
                Device_Programer.ProgressChanged += Device_Program_Progess_changed;
@@ -154,28 +159,9 @@ namespace CANBUS_MONITOR
                New_Firmware_Hex = new HexFile();
                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                timer.Interval = 1000;
-               Node_group.nodesize = 100;
-               byte[] idtest = new byte[12];
-
-               idtest[0] = 1;
-               idtest[1] = 10;
-               idtest[2] = 2;
-               idtest[3] = 6;
-               idtest[4] = 9;
-               idtest[5] = 100;
-               idtest[6] = 30;
-               idtest[7] = 20;
-               idtest[8] = 8;
-               idtest[9] = 3;
-               for (byte i = 0; i < 10; i++)
-               {
-                   CANopen.Node newnode = new CANopen.Node();
-
-                   newnode.Node_ID = idtest[i];
-                   newnode.Set_State(0x05);
-                   Node_group.Add(newnode.Node_ID,newnode);
-                   j = i;
-                }
+               Node_group.nodesize = 70;
+               
+                
 
                
              //
@@ -634,7 +620,7 @@ namespace CANBUS_MONITOR
             
             
             //Debug.Print("{0}", Node_group.Count.ToString());
-            Node_group.nodesize = 200;
+            
             //CAN_Device_Notifications.Setnodesize(200);
             //MessageBox.Show(newnode.State_Description);
             //newnode.Set_State(0x05);
@@ -1130,7 +1116,7 @@ namespace CANBUS_MONITOR
                          counter++;
                          (sender as BackgroundWorker).ReportProgress(counter, readBuffer);
 
-                         bcoutput.Add(readBuffer);
+                        // bcoutput.Add(readBuffer);
 
                          if(counter%100==0)
                          {
@@ -1663,11 +1649,13 @@ namespace CANBUS_MONITOR
 
         private void buttontestcanopen_Click(object sender, RoutedEventArgs e)
         {
+
+            //ui_test.RunWorkerAsync(Node_group);
             Task.Run(() => UserThreads.EmulateCanNetwork(1,Listbox_canopen, Node_group));
 
         }
 
-        
+       
 
        
 

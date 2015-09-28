@@ -137,6 +137,7 @@ namespace CANBUS_MONITOR
            CancellationTokenSource src = new CancellationTokenSource();
            CancellationToken ct = src.Token;
 
+           
            Task lbconsole = Task.Run(() => UserThreads.ListboxConsumer(bcoutput, lb , src));
            Task node = Task.Run(() => UserThreads.NodeDispatcher(bcnodes, nodegroup, ct));
 

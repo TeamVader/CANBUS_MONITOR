@@ -35,6 +35,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
+using System.Windows.Threading;
 
 namespace CANBUS_MONITOR
 {
@@ -222,10 +223,27 @@ namespace CANBUS_MONITOR
             return index;
         }
 
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
+            NotifyCollectionChangedEventHandler CollectionChanged = this.CollectionChanged;
             if (CollectionChanged != null)
-                CollectionChanged(this, args);
+                foreach (NotifyCollectionChangedEventHandler nh in CollectionChanged.GetInvocationList())
+                {
+                    DispatcherObject dispObj = nh.Target as DispatcherObject;
+                    if (dispObj != null)
+                    {
+                        Dispatcher dispatcher = dispObj.Dispatcher;
+                        if (dispatcher != null && !dispatcher.CheckAccess())
+                        {
+                            dispatcher.BeginInvoke(
+                                (Action)(() => nh.Invoke(this,
+                                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))),
+                                DispatcherPriority.DataBind);
+                            continue;
+                        }
+                    }
+                    nh.Invoke(this, e);
+                }
         }
 
         protected virtual void OnPropertyChanged(string name)

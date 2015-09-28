@@ -14,7 +14,7 @@ using System.Collections.Concurrent;
 
 namespace CANBUS_MONITOR
 {
-    public class Nodegroup : ObservableSortedDictionary<int, CANopen.Node> , INotifyPropertyChanged
+    public class Nodegroup : ObservableConcurrentSortedDictionary<int, CANopen.Node> , INotifyPropertyChanged
     {
         
 

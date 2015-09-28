@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
@@ -13,18 +14,18 @@ using System.Diagnostics;
 namespace CANBUS_MONITOR
 {
     [Serializable]
-    public class ObservableSortedDictionary<TKey, TValue> : ObservableDictionary<TKey, TValue>, ISerializable, IDeserializationCallback
+    public class ObservableConcurrentSortedDictionary<TKey, TValue> : ObservableConcurrentDictionary<TKey, TValue>, ISerializable, IDeserializationCallback
     {
         #region constructors
 
         #region public
 
-        public ObservableSortedDictionary(IComparer<DictionaryEntry> comparer)
+        public ObservableConcurrentSortedDictionary(IComparer<DictionaryEntry> comparer)
             : base()
         {
             _comparer = comparer;
         }
-
+        /*
         public ObservableSortedDictionary(IComparer<DictionaryEntry> comparer, IDictionary<TKey, TValue> dictionary)
             : base(dictionary)
         {
@@ -49,7 +50,7 @@ namespace CANBUS_MONITOR
         {
             _siInfo = info;
         }
-
+        */
         #endregion public
 
         #endregion constructors
@@ -71,7 +72,7 @@ namespace CANBUS_MONITOR
             return BinaryFindInsertionIndex(0, Count - 1, newEntry);
         }
 
-        protected override bool SetEntry(TKey key, TValue value)
+        protected virtual bool SetEntry(TKey key, TValue value)
         {
             bool keyExists = _keyedEntryCollection.Contains(key);
 
@@ -123,6 +124,7 @@ namespace CANBUS_MONITOR
         #region interfaces
 
         #region ISerializable
+
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

@@ -11,6 +11,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace System.Collections.Concurrent
 {
@@ -66,6 +68,29 @@ namespace System.Collections.Concurrent
             }
         }
 
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
+            Collection<DictionaryEntry> entries = new Collection<DictionaryEntry>();
+            foreach (DictionaryEntry entry in _keyedEntryCollection)
+                entries.Add(entry);
+            info.AddValue("entries", entries);
+        }
+
+        public int Count
+        {
+            get { return _keyedEntryCollection.Count; }
+        }
+
+        protected virtual bool AddEntry(TKey key, TValue value)
+        {
+            _keyedEntryCollection.Add(new DictionaryEntry(key, value));
+            return true;
+        }
         /// <summary>Attempts to add an item to the dictionary, notifying observers of any changes.</summary>
         /// <param name="item">The item to be added.</param>
         /// <returns>Whether the add was successful.</returns>
@@ -156,6 +181,67 @@ namespace System.Collections.Concurrent
             return ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).GetEnumerator();
         }
         #endregion
+
+        #region KeyedDictionaryEntryCollection<TKey>
+
+        protected class KeyedDictionaryEntryCollection<TKey> : KeyedCollection<TKey, DictionaryEntry>
+        {
+            #region constructors
+
+            #region public
+
+            public KeyedDictionaryEntryCollection() : base() { }
+
+            public KeyedDictionaryEntryCollection(IEqualityComparer<TKey> comparer) : base(comparer) { }
+
+            #endregion public
+
+            #endregion constructors
+
+            #region methods
+
+            #region protected
+
+            protected override TKey GetKeyForItem(DictionaryEntry entry)
+            {
+                return (TKey)entry.Key;
+            }
+
+            #endregion protected
+
+            #endregion methods
+        }
+
+        #endregion KeyedDictionaryEntryCollection<TKey>
+
+        #region IDeserializationCallback
+
+        public virtual void OnDeserialization(object sender)
+        {
+            if (_siInfo != null)
+            {
+                Collection<DictionaryEntry> entries = (Collection<DictionaryEntry>)
+                    _siInfo.GetValue("entries", typeof(Collection<DictionaryEntry>));
+                foreach (DictionaryEntry entry in entries)
+                    AddEntry((TKey)entry.Key, (TValue)entry.Value);
+            }
+        }
+
+        #endregion IDeserializationCallback
+
+        #region fields
+
+        protected KeyedDictionaryEntryCollection<TKey> _keyedEntryCollection;
+
+        private int _countCache = 0;
+        private Dictionary<TKey, TValue> _dictionaryCache = new Dictionary<TKey, TValue>();
+        private int _dictionaryCacheVersion = 0;
+        private int _version = 0;
+
+        [NonSerialized]
+        private SerializationInfo _siInfo = null;
+
+        #endregion fields
 
         #region IDictionary<TKey,TValue> Members
         public void Add(TKey key, TValue value)
