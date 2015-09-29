@@ -71,7 +71,7 @@ namespace CANBUS_MONITOR
         #endregion
 
 
-       #region NODE STATES
+        #region NODE STATES
         public class Default_NODE_STATES
         {
             public const byte Boot_Up = 0x00;
@@ -83,7 +83,7 @@ namespace CANBUS_MONITOR
             public const byte Pre_operational = 0x7F;
             public const byte Unknown_state = 0x0F;
 
-            static Dictionary<Byte, string> Default_NODES_STATES_Dict = new Dictionary<Byte, string>()
+            public static Dictionary<Byte, string> Default_NODES_STATES_Dict = new Dictionary<Byte, string>()
             {
                 {Boot_Up,"Boot_Up"},
                 //{Disconnected,"Disconnected"},
@@ -113,13 +113,13 @@ namespace CANBUS_MONITOR
        #endregion
 
 
-         #region NMT COMMAND SPECIFIER
+        #region NMT COMMAND SPECIFIER
 
 
          public class Default_NMT_CS
         {
             /// <summary>
-            /// NMT Command Specifier
+            /// NMT Command Specifier 
             /// </summary>
             private const byte NMT_Start_Node = 0x01;
             private const byte NMT_Stop_Node = 0x02;
@@ -127,10 +127,11 @@ namespace CANBUS_MONITOR
             private const byte NMT_Reset_Node = 0x81;
             private const byte NMT_Reset_Comunication = 0x82;
 
+             // Byte Command CS and NodeID or 0 for all Nodes
             /// <summary>
             /// Communication profile DS-301
             ///</summary>
-            static Dictionary<Byte, string> Default_NMT_CS_Dict = new Dictionary<Byte, string>()
+            public static Dictionary<Byte, string> Default_NMT_CS_Dict = new Dictionary<Byte, string>()
             {
                 {NMT_Start_Node,"Start Node"},
                 {NMT_Stop_Node,"Stop Node"},
@@ -186,6 +187,121 @@ namespace CANBUS_MONITOR
                 else
                 {
                     return "n/a";
+                }
+            }
+        }
+        #endregion
+
+        #region EMERGENCY CODES
+        public class Default_EMCY
+        {
+                
+       
+
+                public const UInt16 NoError = 0x0000;
+                public const UInt16 GenericError = 0x1000;
+
+                public const UInt16 CurrentError = 0x2000;
+                public const UInt16 Current_device_input_side = 0x2100;
+                public const UInt16 Current_inside_the_device  = 0x2200;
+                public const UInt16 Current_device_output_side = 0x2300;
+
+                public const UInt16 VoltageError = 0x3000;
+                public const UInt16 Mains_Voltage = 0x3100;
+                public const UInt16 Voltage_inside_the_device = 0x3200;
+                public const UInt16 Output_Voltage = 0x3300;
+
+                public const UInt16 TemperatureError = 0x4000;
+                public const UInt16 Ambient_Temperature = 0x4100;
+                public const UInt16 Device_Temperature = 0x4200;
+
+                public const UInt16 HardwareError = 0x5000;
+
+                public const UInt16 SoftwareError = 0x6000;
+                public const UInt16 Internal_Software = 0x6100;
+                public const UInt16 User_Software = 0x6200;
+                public const UInt16 Data_Set = 0x6300;
+
+                public const UInt16 ModuleError = 0x7000;
+
+                public const UInt16 Monitoring = 0x8000;
+                public const UInt16 Communication = 0x8100;
+                public const UInt16 CAN_Overrun_Objects_lost = 0x8110;
+                public const UInt16  CAN_in_Error_Passive_Mode = 0x8120;
+                public const UInt16  Life_Guard_Error_or_Heartbeat_Error = 0x8130;
+                public const UInt16 recovered_from_bus_off = 0x8140;
+                public const UInt16  Transmit_COB_ID_collision = 0x8150;
+                public const UInt16  Protocol_Error = 0x8200;
+                public const UInt16 PDO_not_processed_due_to_length_error = 0x8210;
+                public const UInt16  PDO_length_exceeded = 0x8220;
+
+                public const UInt16 ExternalError = 0x9000;
+                public const UInt16 Additional_Functions = 0xF000;
+                public const UInt16 DevSpecificError = 0xFF00;
+
+
+                static Dictionary<UInt16, string> Default_EMCY_Dict = new Dictionary<UInt16, string>()
+            {
+                {NoError,"NoError"},
+                {GenericError,"GenericError"},
+
+                {CurrentError,"CurrentError"},
+                {Current_device_input_side,"Current_device_input_side"},
+                {Current_inside_the_device,"Current_inside_the_device"},
+                {Current_device_output_side,"Current_device_output_side"},
+
+                {VoltageError ,"VoltageError"},
+                {Mains_Voltage,"Mains_Voltage"},
+                {Voltage_inside_the_device,"Voltage_inside_the_device"},
+                {Output_Voltage,"Output_Voltage"},
+
+                {TemperatureError,"TemperatureError"},
+                {Ambient_Temperature,"Ambient_Temperature"},
+                {Device_Temperature,"Device_Temperature"},
+
+                {HardwareError,"HardwareError"},
+
+                {SoftwareError,"SoftwareError"},
+                {Internal_Software ,"Internal_Software"},
+                {User_Software,"User_Software"},
+                {Data_Set,"Data_Set"},
+
+                {ModuleError,"ModuleError"},
+
+                {Monitoring,"Monitoring"},
+                {Communication,"Communication"},
+                {CAN_Overrun_Objects_lost,"CAN_Overrun_Objects_lost"},
+                {CAN_in_Error_Passive_Mode,"CAN_in_Error_Passive_Mode"},
+                {Life_Guard_Error_or_Heartbeat_Error,"Life_Guard_Error_or_Heartbeat_Error"},
+                { recovered_from_bus_off,"recovered_from_bus_off"},
+                {Transmit_COB_ID_collision,"Transmit_COB_ID_collision"},
+                {Protocol_Error,"Protocol_Error"},
+                {PDO_not_processed_due_to_length_error,"PDO_not_processed_due_to_length_error"},
+                {PDO_length_exceeded,"PDO_length_exceeded"},
+
+                {ExternalError,"ExternalError"},
+                {Additional_Functions,"Additional_Functions"},
+                {DevSpecificError,"DevSpecificError"},
+            };
+
+            public static string GetDescription(UInt16 ID)
+            {
+                // Try to get the result in the static Dictionary
+                string result;
+                if (Default_EMCY_Dict.TryGetValue((ushort)(ID & 0xFFF0), out result))
+                {
+                    return result;
+                }
+                else
+                {
+                    if (Default_EMCY_Dict.TryGetValue((ushort)(ID & 0xFF00), out result))
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return "n/a";
+                    }
                 }
             }
         }

@@ -63,6 +63,17 @@ namespace CANBUS_MONITOR
             return false;
         }
 
+        public void AddNode(CANopen.Node newnode)
+        {
+            if (newnode.Node_ID <= MAX_NODES && newnode.Node_ID >= MIN_NODE_ID)
+            {
+                if (!NodeExists(newnode.Node_ID))
+                {
+                    this.Add(newnode.Node_ID, newnode);
+                }
+            }
+        }
+
         public void InvokePropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;

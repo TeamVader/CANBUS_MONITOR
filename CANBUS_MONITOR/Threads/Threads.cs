@@ -108,8 +108,8 @@ namespace CANBUS_MONITOR
                     {
                     newnode = new CANopen.Node();
                     newnode.Node_ID = id;
-                    newnode.Set_State(0x05);
-                    nodegroup.Add(newnode.Node_ID, newnode);
+                    //newnode.Set_State(0x05);
+                    nodegroup.AddNode(newnode);
                     }
 
                 }
@@ -171,6 +171,11 @@ namespace CANBUS_MONITOR
                   }
                }
            
+           }
+
+           foreach (var key in CANopen.Default_Identifier_Setup.Default_Identifier_Setup_Dict.Keys)
+           {
+
            }
 
           // src.Cancel(false);
