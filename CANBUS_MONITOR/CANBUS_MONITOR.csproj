@@ -81,6 +81,7 @@
     <Compile Include="UI\ObservableConcurrentSortedDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\ValueConverter.cs" />
     <Compile Include="usbGenericCommunications\deviceCommunication.cs">
       <SubType>Component</SubType>
     </Compile>

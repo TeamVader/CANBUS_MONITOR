@@ -656,8 +656,8 @@ namespace CANBUS_MONITOR
             // Node_group.OrderBy(i => i.Key);
             if(!Node_group.NodeExists(newnode.Node_ID))
             Node_group.Add(newnode.Node_ID,newnode);
-            
-            
+
+            Node_group[0x05].Set_State(0x00);
             //Debug.Print("{0}", Node_group.Count.ToString());
             
             //CAN_Device_Notifications.Setnodesize(200);

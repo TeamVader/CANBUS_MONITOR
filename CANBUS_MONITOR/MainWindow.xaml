@@ -597,7 +597,7 @@
                                             <RowDefinition Height="15*" />
                                             <RowDefinition Height="15*" />
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="{Binding Value.Node_ID}" FontWeight="Normal"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="42"/>
+                                        <TextBlock Grid.Row="0" Text="{Binding Value.Node_ID}" FontWeight="Normal"  Foreground="{Binding Value.State,Converter ={StaticResource BrushConverter}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="42"/>
                                         <Border Grid.Row="1" Grid.RowSpan="2" Background="{StaticResource DarkGrayBrush}" />
                                         <TextBlock  Grid.Row="1" Text="{Binding  Value.State}" HorizontalAlignment="Left" FontSize="8" />
                                         <TextBlock  Grid.Row="2" Text="{Binding  Value.State_Description}" HorizontalAlignment="Left" FontSize="8" />
