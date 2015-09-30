@@ -11,24 +11,25 @@ namespace CANBUS_MONITOR
 
         #region COB ID FUNCTION CODES
         //Default COB ID Function Codes in the canopen DS301
-        private const byte NMT = 0x0;
-        private const byte SYNC = 0x1;
-        private const byte TIME_STAMP = 0x2;
-        private const byte TPDO1 = 0x3;
-        private const byte RPDO1 = 0x4;
-        private const byte TPDO2 = 0x5;
-        private const byte RPDO2 = 0x6;
-        private const byte TPDO3 = 0x7;
-        private const byte RPDO3 = 0x8;
-        private const byte TPDO4 = 0x9;
-        private const byte RPDO4 = 0xA;
-        private const byte TSDO = 0xB;
-        private const byte RSDO = 0xC;
-        private const byte NMT_EC = 0xE;
-        private const byte LSS = 0xF;
+       
 
         public class Default_Identifier_Setup
         {
+            public const byte NMT = 0x0;
+            public const byte SYNC = 0x1;
+            public const byte TIME_STAMP = 0x2;
+            public const byte TPDO1 = 0x3;
+            public const byte RPDO1 = 0x4;
+            public const byte TPDO2 = 0x5;
+            public const byte RPDO2 = 0x6;
+            public const byte TPDO3 = 0x7;
+            public const byte RPDO3 = 0x8;
+            public const byte TPDO4 = 0x9;
+            public const byte RPDO4 = 0xA;
+            public const byte TSDO = 0xB;
+            public const byte RSDO = 0xC;
+            public const byte NMT_EC = 0xE;
+            public const byte LSS = 0xF;
             /// <summary>
             /// Communication profile DS-301
             ///</summary>
@@ -121,11 +122,11 @@ namespace CANBUS_MONITOR
             /// <summary>
             /// NMT Command Specifier 
             /// </summary>
-            private const byte NMT_Start_Node = 0x01;
-            private const byte NMT_Stop_Node = 0x02;
-            private const byte NMT_Enter_PreOperational = 0x80;
-            private const byte NMT_Reset_Node = 0x81;
-            private const byte NMT_Reset_Comunication = 0x82;
+            public const byte NMT_Start_Node = 0x01;
+            public const byte NMT_Stop_Node = 0x02;
+            public const byte NMT_Enter_PreOperational = 0x80;
+            public const byte NMT_Reset_Node = 0x81;
+            public const byte NMT_Reset_Comunication = 0x82;
 
              // Byte Command CS and NodeID or 0 for all Nodes
             /// <summary>
@@ -161,11 +162,11 @@ namespace CANBUS_MONITOR
         #region SDO COMMANDS
         public class Default_SDO_COMMANDS
         {
-            private const byte SDO_Master_Read_From_Slave    = 0x40;
-            private const byte SDO_Master_Write_To_Slave     = 0x23;
-            private const byte SDO_Succes_Read_Response      = 0x43;
-            private const byte SDO_Succes_Write_Response     = 0x60;
-            private const byte SDO_Abort_Operation           = 0x80;
+            public const byte SDO_Master_Read_From_Slave    = 0x40;
+            public const byte SDO_Master_Write_To_Slave     = 0x23;
+            public const byte SDO_Succes_Read_Response      = 0x43;
+            public const byte SDO_Succes_Write_Response     = 0x60;
+            public const byte SDO_Abort_Operation           = 0x80;
 
             static Dictionary<Byte, string> Default_SDO_CS_Dict = new Dictionary<Byte, string>()
             {

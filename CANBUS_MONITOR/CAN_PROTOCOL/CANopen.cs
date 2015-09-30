@@ -19,13 +19,7 @@ namespace CANBUS_MONITOR
     {
 
 
-        public class CanMsg
-        {
-            public byte[] Data = new byte[8];
-            public UInt32 ID = 0;
-            public byte MsgLen = 0;
-            public MsgTypes MsgType = MsgTypes.MSGTYPE_STANDARD;
-        }
+       
 
         /// <summary>
         /// CAN Message
@@ -72,67 +66,83 @@ namespace CANBUS_MONITOR
         {
             
             public UInt32 ID = 0;
-            public byte Datalength = 0;
+            public byte dlc = 0;
             public byte[] Data = new byte[8];
             public MsgTypes MsgType = MsgTypes.MSGTYPE_STANDARD;
         }
 
-       
 
-        
-        /*
-        private void canDispatch(CanOpenDev device, CanMsg msg)
+
+
+
+        public static void CAN_Frame_Dispatch(CANopen.Node node, CAN_FRAME frame)
         {
 
-            UInt16 cob_id = (UInt16)msg.ID;
+            UInt16 cob_id = (UInt16)frame.ID;
+            
             switch (cob_id >> 7)
             {
-                case SYNC:		// can be a SYNC or a EMCY message 
+                case Default_Identifier_Setup.SYNC:		// can be a SYNC or a EMCY message 
                     if (cob_id == 0x080)	// SYNC 
                     {
-                        if (device.ComState.csSYNC == 1)
-                            proceedSYNC(device);
+                        
                     }
                     else		// EMCY 
-                        if (device.ComState.csEmergency == 1)
-                            proceedEMCY(device, msg);
+                    {
+                         
+                            proceedEMCY(node, frame);
+                    }
                     break;
-                // case TIME_STAMP: 
-                case PDO1tx:
-                case PDO1rx:
-                case PDO2tx:
-                case PDO2rx:
-                case PDO3tx:
-                case PDO3rx:
-                case PDO4tx:
-                case PDO4rx:
-                    if (device.ComState.csPDO == 1)
-                        proceedPDO(device, msg);
+                case Default_Identifier_Setup.TIME_STAMP:
+                case Default_Identifier_Setup.TPDO1:
+                case Default_Identifier_Setup.RPDO1:
+                case Default_Identifier_Setup.TPDO2:
+                case Default_Identifier_Setup.RPDO2:
+                case Default_Identifier_Setup.TPDO3:
+                case Default_Identifier_Setup.RPDO3:
+                case Default_Identifier_Setup.TPDO4:
+                case Default_Identifier_Setup.RPDO4:
+                   
                     break;
-                case SDOtx:
-                case SDOrx:
-                    if (device.ComState.csSDO == 1)
-                        proceedSDO(device, msg);
+                case Default_Identifier_Setup.TSDO:
+                case Default_Identifier_Setup.RSDO:
+                    
                     break;
-                case NODE_GUARD:
-                    if (device.ComState.csLifeGuard == 1)
-                        proceedNODE_GUARD(device, msg);
+                case Default_Identifier_Setup.NMT_EC:
+                   
+                    proceedNMT_EC(node, frame);
                     break;
-                case NMT:
-                    if (device.iam_a_slave)
-                        proceedNMTstateChange(device, msg);
+                case Default_Identifier_Setup.NMT:
+                    if (frame.Data[1] != 0x00)
+                    {
+                       
+
+                        proceedNMT(node, frame);
+                    }
                     break;
             }
         }
-            */
-        
-        /// <summary>
-        /// Test
-        /// </summary>
-    
-        
 
 
+
+        private static void proceedEMCY(CANopen.Node node, CAN_FRAME frame)
+        {
+
+        }
+
+        private static void proceedNMT_EC(CANopen.Node node, CAN_FRAME frame)
+        {
+            if (frame.MsgType != MsgTypes.MSGTYPE_RTR)
+            {
+                node.Set_State((byte)(frame.Data[0] & 0x7F));
+            }
+        }
+
+        private static void proceedNMT(CANopen.Node node, CAN_FRAME frame)
+        {
+
+
+        }
 
         /*
         public static class PrimitiveConversion

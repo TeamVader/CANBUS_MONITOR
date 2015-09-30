@@ -56,9 +56,9 @@ namespace CANBUS_MONITOR
         #endregion key comparer class
 
 
-        public bool NodeExists(int NodeID)
+        public bool NodeExists(uint NodeID)
         {
-            if(this.ContainsKey(NodeID))
+            if(this.ContainsKey((int)NodeID))
                 return true;
             return false;
         }

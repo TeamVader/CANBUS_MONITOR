@@ -1117,7 +1117,7 @@ namespace CANBUS_MONITOR
                // System.Threading.Thread.Sleep(1);
 
 
-            Task.Run(() => UserThreads.ListboxConsumer(bcoutput,Listbox_canopen,src));
+            //Task.Run(() => UserThreads.ListboxConsumer(bcoutput,Listbox_canopen,src));
              
 
              try
