@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CANBUS_MONITOR
@@ -68,26 +69,34 @@ namespace CANBUS_MONITOR
                 foreach (var Canmessage in bc.GetConsumingEnumerable(ct))
                 {
 
-                   
 
-                    if(!nodegroup.NodeExists(Canmessage.ID & 0x7F))
+
+                    if (!nodegroup.NodeExists(Canmessage.ID & 0x7F))
                     {
-                    newnode = new CANopen.Node();
-                    newnode.Node_ID = (byte)(Canmessage.ID & 0x7F);
-                    //newnode.Set_State(0x05);
-                    nodegroup.AddNode(newnode);
+                        newnode = new CANopen.Node();
+                        newnode.Node_ID = (byte)(Canmessage.ID & 0x7F);
+                        newnode.Set_State(0x05);
+                        nodegroup.AddNode(newnode);
+                      //  MessageBox.Show((Canmessage.ID & 0x7F).ToString("X3"));
                     }
 
-                    CANopen.CAN_Frame_Dispatch(nodegroup[(int)(Canmessage.ID & 0x7F)], (CANopen.CAN_FRAME)Canmessage);
+                    if (nodegroup.NodeExists(Canmessage.ID & 0x7F))
+                    {
+                        CANopen.CAN_Frame_Dispatch(nodegroup[(int)(Canmessage.ID & 0x7F)], (CANopen.CAN_FRAME)Canmessage);
+                    }
+
+                   // CANopen.CAN_Frame_Dispatch(nodegroup[(int)(Canmessage.ID & 0x7F)], (CANopen.CAN_FRAME)Canmessage);
+                        //  Thread.Sleep(5);
+                    
                 }
 
             }
 
-            catch (OperationCanceledException)
+            catch (Exception ex)
             {
 
-               
 
+                MessageBox.Show(ex.Message);
             }
 
         }
@@ -97,6 +106,8 @@ namespace CANBUS_MONITOR
         /// Converts USB Bytes to CAN_FRAME class
         /// </summary>
         /// <param name="bc"></param>
+        /// <param name="bcframes"></param>
+        /// <param name="bcnodes"></param>
         /// <param name="ct"></param>
         public static void USB_To_CAN_FRAME_Converter(BlockingCollection<Byte[]> bc, BlockingCollection<CANopen.CAN_FRAME> bcframes, BlockingCollection<CANopen.CAN_FRAME> bcnodes, CancellationToken ct)
         {
@@ -142,24 +153,16 @@ namespace CANBUS_MONITOR
 
                     bcframes.Add(newframe);
                     bcnodes.Add(newframe);
-                    /*
-                    if (!nodegroup.NodeExists(id))
-                    {
-                        newnode = new CANopen.Node();
-                        newnode.Node_ID = id;
-                        //newnode.Set_State(0x05);
-                        nodegroup.AddNode(newnode);
-                    }
-                    */
+                   
                 }
 
             }
 
-            catch (OperationCanceledException)
+            catch (Exception ex)
             {
 
 
-
+                MessageBox.Show(ex.Message);
             }
 
 

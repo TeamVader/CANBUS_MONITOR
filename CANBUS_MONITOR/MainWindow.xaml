@@ -275,11 +275,11 @@
                         <ColumnDefinition Width="80"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     
-                    <local:ListboxPIC VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="listboxrecording" Grid.Row="1" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <local:ListboxConsole VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="listboxrecording" Grid.Row="1" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                         <ListBox.Background>
                             <SolidColorBrush Color="{DynamicResource Grey}"/>
                         </ListBox.Background>
-                    </local:ListboxPIC>
+                    </local:ListboxConsole>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"></ColumnDefinition>
@@ -574,6 +574,8 @@
                             <RowDefinition Height="30" />
                             <RowDefinition Height="30" />
                             <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
                         </Grid.RowDefinitions>
                         <Label x:Name="Label_Messages" Content="Received Messages" Foreground="White" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
                         <Label x:Name="Label_EMCY_Counter" Content="Type : EMCY " Foreground="White" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -586,6 +588,7 @@
                         <Label x:Name="Label_Unknown_Counter" Content="Type : N/A "  Foreground="White" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Left" />
                         <Label x:Name="Label_Error_Counter" Content="Error Counter "  Foreground="White" Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Left" />
                         <Button x:Name="buttontestcanopen" Grid.Column="0"  Content="Test" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" Grid.Row="10" Click="buttontestcanopen_Click"  />
+                        <Button x:Name="buttonCAN_ON" Grid.Column="0"  Content="Go on Bus" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" Grid.Row="11" Click="buttonCAN_ON_Click"  />
                     </Grid>
                     <ItemsControl x:Name="Itemscontrol_Nodes"  Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"  HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource Nodegroupwpf}}"   Background="Transparent">
                         <ItemsControl.ItemTemplate>
@@ -612,7 +615,7 @@
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                     <Label Grid.Row="1" VerticalAlignment="Center"  Grid.Column="0" Foreground="White" Content="Console Output Window"></Label>
-                    <local:ListboxConsole x:Name="Listbox_canopen"  Grid.Column="0" Grid.Row="2" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <local:ListboxConsole x:Name="Listbox_canopen"  Grid.Column="0" Width="400" HorizontalAlignment="Left" Grid.Row="2" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                         <ListBox.Background>
                             <SolidColorBrush Color="{DynamicResource Grey}"/>
                         </ListBox.Background>

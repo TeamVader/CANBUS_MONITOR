@@ -73,6 +73,7 @@ namespace CANBUS_MONITOR
         private BackgroundWorker SQLRecord_Inserter = new BackgroundWorker();
         private BackgroundWorker SQLRecord_Inserter2 = new BackgroundWorker();
 
+        private BackgroundWorker USB_Task = new BackgroundWorker();
         private BackgroundWorker Device_Programer = new BackgroundWorker();
 
        
@@ -126,6 +127,9 @@ namespace CANBUS_MONITOR
                USB_Data_Gatherer.WorkerSupportsCancellation = true;
                USB_Data_Gatherer.ProgressChanged += USB_Data_Gatherer_ProgressChanged;
                USB_Data_Gatherer.RunWorkerCompleted += USB_Data_Gatherer_RunWorkerCompleted;
+
+               USB_Task.DoWork += USB_CAN_Task;
+               USB_Task.WorkerSupportsCancellation = true;
 
                SQLRecord_Inserter.DoWork += SQLRecord_Inserter_DoWork;
                SQLRecord_Inserter2.DoWork += SQLRecord_Inserter_DoWork;
@@ -681,7 +685,8 @@ namespace CANBUS_MONITOR
                 //{
                     CAN_Device.Send_USB_Command(USB_User_Commands.Start_USB_Communication);
                     CAN_Device_Notifications.SetRecording(true);
-                    USB_Data_Gatherer.RunWorkerAsync();
+                    USB_Task.RunWorkerAsync(listboxrecording);
+                 //   USB_Data_Gatherer.RunWorkerAsync();
                 //}
             }
 
@@ -692,7 +697,7 @@ namespace CANBUS_MONITOR
         {
             if (CAN_Device_Notifications.Recording)
             {
-                USB_Data_Gatherer.CancelAsync();
+                USB_Task.CancelAsync();
             }
             CAN_Device_Notifications.SetRecording(false);
             CAN_Device.Send_USB_Command(USB_User_Commands.Stop_USB_Communication);
@@ -1088,6 +1093,146 @@ namespace CANBUS_MONITOR
         #endregion
 
         #region USB_TASK
+
+
+        void USB_CAN_Task(object sender, DoWorkEventArgs e)
+        {
+            BlockingCollection<Byte[]> bcoutput = new BlockingCollection<Byte[]>();
+
+            BlockingCollection<CANopen.CAN_FRAME> bcframes = new BlockingCollection<CANopen.CAN_FRAME>();
+            BlockingCollection<CANopen.CAN_FRAME> bcnodes = new BlockingCollection<CANopen.CAN_FRAME>();
+
+            #if (DEBUG)
+            Stopwatch stopwat = new Stopwatch();
+            #endif
+
+            byte[] readBuffer = new byte[64];
+
+            int counter = 0;
+            string data = "";
+            bool buffer1full = false;
+            
+            CancellationTokenSource src = new CancellationTokenSource();
+            CancellationToken ct = src.Token;
+
+            ListboxConsole lb = (ListboxConsole)e.Argument;
+
+
+
+
+            Task frames = Task.Run(() => UserThreads.USB_To_CAN_FRAME_Converter(bcoutput, bcframes, bcnodes, ct));
+            Task lbconsole = Task.Run(() => UserThreads.ListboxConsumer(bcframes, lb, src));
+            Task node = Task.Run(() => UserThreads.NodeDispatcher(bcnodes, Node_group, ct));
+
+            try
+             {
+                 
+                
+                 while (!USB_Task.CancellationPending )
+                 {
+                    
+
+                     // If the device hasn't sent data in the last 5 seconds,
+                     // a timeout error (ec = IoTimedOut) will occur. 
+                     readBuffer = CAN_Device.readdata();
+                     if (readBuffer != null)
+                     {
+                         
+
+                         bcoutput.Add(readBuffer);
+                         
+                        /* for(int i = 0;i<65;i++)
+                         {
+                          data+= readBuffer[i].ToString("X2") + " ";
+
+                         }*/
+                         
+                         data += readBuffer[53].ToString("X2");
+
+                         
+                         Debug.Print(data);
+                             data= "";
+                         if(counter%100==0)
+                         {
+                             
+                            
+                             //MessageBox.Show(buffer1full.ToString());
+                             if (buffer1full)
+                             {
+                               //  SQLRecord_Inserter.RunWorkerAsync(record2);
+                             }
+                             else
+                             {
+                                 //SQLRecord_Inserter.RunWorkerAsync(record1);
+
+                             }
+
+                             buffer1full = !buffer1full;
+                         }
+                         if (!buffer1full)
+                         {
+                             CAN_Monitor_Functions.insertRecordRows(record1, readBuffer);
+                         }
+                         else
+                         {
+                             CAN_Monitor_Functions.insertRecordRows(record2, readBuffer);
+
+                         }
+                         
+
+                     }
+                     else
+                     {
+                         Debug.WriteLine("Device deattached");
+                         break;
+                     }
+                     
+                 }
+
+
+                 
+             }
+             catch (Exception ex)
+             {
+                 
+                 MessageBox.Show( ex.Message);
+             }
+             finally
+             {
+
+               //  bcoutput.CompleteAdding();
+               
+             }
+
+             e.Cancel = true;
+
+             CAN_Device.Send_USB_Command(USB_User_Commands.Stop_USB_Communication);
+             //Thread.Sleep(1000);
+             if (record2.Rows.Count > 0)
+             {
+                 SQLRecord_Inserter.RunWorkerAsync(record2);
+             }
+             else
+             {
+                 SQLRecord_Inserter.RunWorkerAsync(record1);
+
+             }
+
+             src.Cancel(false);
+             if (!CAN_Device.isDeviceAttached)
+             {
+                 CAN_Device.findTargetDevice();
+             }
+             //CAN_Device_Notifications.SetRecording(false);
+            #if (DEBUG)
+            stopwat.Stop();
+
+            time = String.Format("TIME  = {0}", stopwat.Elapsed);
+            //MessageBox.Show(time);
+            #endif
+        
+
+        }
 
         void USB_Data_Gatherer_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -1692,6 +1837,25 @@ namespace CANBUS_MONITOR
             //ui_test.RunWorkerAsync(Node_group);
             Task.Run(() => UserThreads.EmulateCanNetwork(1,Listbox_canopen, Node_group));
 
+        }
+
+        private void buttonCAN_ON_Click(object sender, RoutedEventArgs e)
+        {
+
+            Listbox_canopen.Items.Clear();
+
+           
+            if (!CAN_Device_Notifications.Recording && CAN_Device.isDeviceAttached)
+            {
+                //Check_isBusActive();
+                //if (CAN_Device_Notifications.IsBusActive)
+                //{
+                CAN_Device.Send_USB_Command(USB_User_Commands.Start_USB_Communication);
+                CAN_Device_Notifications.SetRecording(true);
+                USB_Task.RunWorkerAsync(Listbox_canopen);
+                //   USB_Data_Gatherer.RunWorkerAsync();
+                //}
+            }
         }
 
        
