@@ -5,13 +5,13 @@
         Title="MainWindow" MinWidth="1300" MinHeight="800" Height="800" Width="1300" WindowStartupLocation="CenterScreen"  MouseDown="Can_Bus_MouseDown" Style="{DynamicResource windowappstyle}" Template="{DynamicResource windowapp}" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary Source="Controltemplate.xaml"></ResourceDictionary>
-        
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
-            
+
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -23,9 +23,9 @@
             <Image VerticalAlignment="Bottom" Source="/Resources/Canopen_Logo.png" HorizontalAlignment="Left" Height="45" RenderOptions.EdgeMode="Aliased"  RenderOptions.BitmapScalingMode="HighQuality">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
-                    <Setter Property="Opacity" Value="0"/>
-                    <Style.Triggers>
-                   
+                        <Setter Property="Opacity" Value="0"/>
+                        <Style.Triggers>
+
                             <Trigger Property="Opacity" Value="0">
                                 <Trigger.EnterActions>
                                     <BeginStoryboard>
@@ -36,7 +36,7 @@
                                 </Trigger.EnterActions>
                             </Trigger>
                         </Style.Triggers>
-                </Style>
+                    </Style>
                 </Image.Style>
             </Image>
             <Grid Grid.Column="1">
@@ -211,7 +211,7 @@
                 </TextBlock>
             </Border>
         </Grid>
-        <TabControl Grid.Row="1" SelectionChanged="TabControl_SelectionChanged">
+        <TabControl Grid.Row="1">
             <TabControl.Background>
                 <SolidColorBrush Color="{DynamicResource Grey}"/>
             </TabControl.Background>
@@ -225,10 +225,11 @@
 
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"  />
+                        <ColumnDefinition Width="236"  />
+                        <ColumnDefinition Width="344"/>
                         <ColumnDefinition Width="Auto"  />
                     </Grid.ColumnDefinitions>
-                    <Menu x:Name="Main_Menu" Grid.Column="0" Grid.Row="0" Background="Transparent" Foreground="White">
+                    <Menu x:Name="Main_Menu" Grid.Column="0" Grid.Row="0" Background="Transparent" Foreground="White" Grid.ColumnSpan="2" Margin="0,0,0,0.4">
                         <MenuItem Style="{DynamicResource Menu_Item_SI}" Header="_File" Background="#FF696464" BorderBrush="#FF696464" >
                             <MenuItem  Style="{StaticResource Menu_Item_SI}" Header="_Open" Background="#FF696464" Foreground="White"  />
                             <MenuItem  Style="{StaticResource Menu_Item_SI}" Header="_Save" Foreground="White" BorderBrush="#FF696464" >
@@ -250,11 +251,11 @@
                         </MenuItem>
                     </Menu>
 
-                    <DataGrid x:Name="Datagridtest" Grid.Column="0" Grid.Row="2"  MinHeight="289" Width="579" SelectionChanged="DataGrid_SelectionChanged" ColumnWidth="*" IsReadOnly="True" />
-                    <ComboBox x:Name="ComboBoxtables" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="120" SelectionChanged="ComboBoxtables_SelectionChanged" IsReadOnly="True" Height="22"/>
-                    <TextBox x:Name="Textboxname" Grid.Column="1" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.Row="2" />
-                    <Button x:Name="Buttonadd" Grid.Column="1"  Content="ADD" HorizontalAlignment="Left" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" Click="Buttonadd_Click" Grid.Row="2" Margin="0,370,0,-0.4" Height="16" VerticalAlignment="Top" />
-                    <Grid Grid.Column="0" Grid.Row="1">
+                    <DataGrid x:Name="Datagridtest" Grid.Column="0" Grid.Row="2"  MinHeight="289" Width="579" SelectionChanged="DataGrid_SelectionChanged" ColumnWidth="*" IsReadOnly="True" Grid.ColumnSpan="2" Margin="0,0.2,0,-0.4" />
+                    <ComboBox x:Name="ComboBoxtables" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="120" SelectionChanged="ComboBoxtables_SelectionChanged" IsReadOnly="True" Height="22" Margin="0,281.2,0,281.6"/>
+                    <TextBox x:Name="Textboxname" Grid.Column="2" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Grid.Row="2" Margin="0,0.2,0,0" />
+                    <Button x:Name="Buttonadd" Grid.Column="2"  Content="ADD" HorizontalAlignment="Left" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC" Click="Buttonadd_Click" Grid.Row="2" Margin="0,370.2,0,0" Height="16" VerticalAlignment="Top" />
+                    <Grid Grid.Column="0" Grid.ColumnSpan="2" Margin="0,30,0,584.6" Grid.RowSpan="3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"  />
                             <ColumnDefinition Width="Auto"  />
@@ -274,7 +275,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="80"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    
+
                     <local:ListboxConsole VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="listboxrecording" Grid.Row="1" Foreground="White" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                         <ListBox.Background>
                             <SolidColorBrush Color="{DynamicResource Grey}"/>
@@ -300,7 +301,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Style="{StaticResource TabItem_SI}" Header="Configuration"  Foreground="White">
+            <TabItem Style="{StaticResource TabItem_SI}" Header="Configuration"  Foreground="White" HorizontalAlignment="Right" Margin="0,0,-0.2,0" Width="93">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"></RowDefinition>
@@ -334,7 +335,8 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"></RowDefinition>
-                        <RowDefinition Height="100"></RowDefinition>
+                        <RowDefinition Height="240"></RowDefinition>
+                        <RowDefinition Height="90"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -371,6 +373,115 @@
 
                         </Grid>
                         <Button x:Name="buttonresetnodes" Grid.Column="4"  Content="Reset Nodes" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" IsEnabled="{Binding IsNormalMode}" Click="buttonresetnodes_Click"  />
+
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Test Message :" VerticalAlignment="Center"  Grid.Column="0" Foreground="White" ></Label>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Content="Byte 1 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B1" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="0" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_B1_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte 2 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B2" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="1" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_B2_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte 3 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B3" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="2" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_B3_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte 4 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B4" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="3" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_B4_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte 5 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="4"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B5" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="4" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_B5_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte 6 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B6" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="5" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_B6_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte 7 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="6"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B7" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="6" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_B7_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte 8 :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="7"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_B8" Grid.Column="0" HorizontalAlignment="Left" Grid.Row="7" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" Margin="161,5.6,-0.2,4.8" TextChanged="Textbox_B8_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                        </Grid>
+                        <Button x:Name="buttonsendmessage" Grid.Column="4"  Content="Send Message" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="90"  OpacityMask="{x:Null}" Opacity="0.8"  Style="{StaticResource Bluebutton}" FontWeight="Normal" FontFamily="SansSerif" Foreground="#FFFCFCFC"  Height="18" IsEnabled="{Binding IsNormalMode}" Click="buttonsendmessage_Click"   />
+
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Test Message :" VerticalAlignment="Center"  Grid.Column="0" Foreground="White" ></Label>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+                            <Label Content="COB ID :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_COB" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="0" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_COB_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte SIDH :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_SIDH" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="1" Width="40"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" TextChanged="Textbox_SIDH_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+                            <Label Content="Byte DLC :" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2"  Grid.Column="0" Foreground="White" ></Label>
+                            <TextBox x:Name="Textbox_DLC" Grid.Column="0" Grid.Row="2"  Height="20" Foreground="White"  BorderBrush="White"  MaxLength="29" Margin="161,5,-0.2,5.4" TextChanged="Textbox_DLC_TextChanged">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource Grey}"/>
+                                </TextBox.Background>
+                            </TextBox>
+
+                        </Grid>
 
                     </Grid>
                 </Grid>
@@ -610,8 +721,8 @@
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
-                                </ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
+                            </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                     <Label Grid.Row="1" VerticalAlignment="Center"  Grid.Column="0" Foreground="White" Content="Console Output Window"></Label>

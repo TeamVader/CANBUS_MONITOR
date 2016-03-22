@@ -1078,10 +1078,6 @@ namespace CANBUS_MONITOR
 
        
 
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         #region SQL_Database
 
@@ -1856,6 +1852,71 @@ namespace CANBUS_MONITOR
                 //   USB_Data_Gatherer.RunWorkerAsync();
                 //}
             }
+        }
+
+       
+        private void Textbox_B1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D0 = Convert.ToByte(Textbox_B1.Text);
+        }
+
+        private void Textbox_B2_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D1 = Convert.ToByte(Textbox_B2.Text);
+        }
+
+        private void Textbox_B3_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D2 = Convert.ToByte(Textbox_B3.Text);
+        }
+
+        private void Textbox_B4_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D3 = Convert.ToByte(Textbox_B4.Text);
+        }
+
+        private void Textbox_B5_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D4 = Convert.ToByte(Textbox_B5.Text);
+        }
+
+        private void Textbox_B6_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D5 = Convert.ToByte(Textbox_B6.Text);
+        }
+
+        private void Textbox_B7_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D6 = Convert.ToByte(Textbox_B7.Text);
+        }
+
+        private void Textbox_B8_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_DATA_TEST.D7 = Convert.ToByte(Textbox_B8.Text);
+        }
+
+        private void Textbox_DLC_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
+
+        private void Textbox_SIDH_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CAN_ID_TEST.SIDH = Convert.ToByte(Textbox_SIDH.Text);
+        }
+
+        private void buttonsendmessage_Click(object sender, RoutedEventArgs e)
+        {
+
+            CAN_Device.Send_CAN_Message(CAN_ID_TEST, CAN_DATA_TEST, Convert.ToByte(Textbox_DLC.Text));
+        }
+
+        private void Textbox_COB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //(bytearray[2] << 3) | (bytearray[3] >> 5);
+            CAN_ID_TEST.SIDH = (byte)( Convert.ToInt16(Textbox_COB.Text) >> 3);
+            CAN_ID_TEST.SIDL = (byte)( Convert.ToInt16(Textbox_COB.Text) << 5);
+           // MessageBox.Show("SIDL :" + CAN_ID_TEST.SIDL.ToString() + "SIDH :" + CAN_ID_TEST.SIDH.ToString());
         }
 
        
